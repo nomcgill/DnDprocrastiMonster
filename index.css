@@ -6,12 +6,17 @@
     font-family: 'Roboto', sans-serif;
   }
   
-  .container {
+  main {
     max-width: 600px;
     margin: 0 auto;
   }
-  
+
+#loading-gif {
+    height: 20px;
+    margin-left: 80px;
+}
+
+
   .hidden {
     display: none;
   }
-  
