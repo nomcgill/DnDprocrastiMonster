@@ -83,17 +83,24 @@ function gatherRelevantMonsters(theUrlArray, ratingInput) {
 function shuffleMonsters(arrayOfMonsters) {
     // console.log(`shuffleMonsters is happening`)
     var relevantLength = arrayOfMonsters.length
-    console.log(arrayOfMonsters.length + ` total monsters are worthy.`)
-    var theSix = []
-    while (theSix.length < 6){
-        var randomNumber = Math.floor(Math.random() * (relevantLength - 0 + 1))
-        // console.log(randomNumber)
-        if (arrayOfMonsters[randomNumber] != undefined )
-            {theSix.push(arrayOfMonsters[randomNumber])
-        }
+    if(relevantLength <= 6) {
+        console.log(arrayOfMonsters)
+        return arrayOfMonsters
     }
-    // console.log(theSix)
-    return theSix
+    console.log(arrayOfMonsters.length + ` total monsters are worthy.`)
+    // var theSix = []
+    var theSix = new Set()
+    while (theSix.size < 6){
+        var randomNumber = Math.floor(Math.random() * relevantLength)
+        // console.log(randomNumber)
+        // if (arrayOfMonsters[randomNumber] != undefined )
+            // {
+                theSix.add(arrayOfMonsters[randomNumber])
+        // }
+    }
+    console.log(Array.from(theSix))
+    
+    return Array.from(theSix)
 }
 
 // Let's find some worthy foes!
@@ -111,15 +118,15 @@ function filterMonsters(singleMonsterResponse, ratingInput) {
 
 function assembleInfoOntoPage(theSix){
     // console.log(`That includes a ` + theSix[0].name + `.`)
-    if (theSix[0].name == theSix[1].name || theSix[0].name == theSix[2].name || theSix[0].name == theSix[3].name || theSix[0].name == theSix[4].name || theSix[0].name == theSix[5].name || theSix[1].name == theSix[2].name|| theSix[1].name == theSix[3].name|| theSix[1].name == theSix[4].name|| theSix[1].name == theSix[5].name){
-        console.log(`Duplicates! Maybe the foe doesn't have many peers?`)
-        var notice = document.getElementById("duplicate-notice")
-        notice.classList.remove("hidden")
-        setTimeout(function(){
-            notice.classList.add("hidden")
-        }, 7000)
-    }
-    for (let w = 1; w <= 6; w++){
+    // if (theSix[0].name == theSix[1].name || theSix[0].name == theSix[2].name || theSix[0].name == theSix[3].name || theSix[0].name == theSix[4].name || theSix[0].name == theSix[5].name || theSix[1].name == theSix[2].name|| theSix[1].name == theSix[3].name|| theSix[1].name == theSix[4].name|| theSix[1].name == theSix[5].name){
+    //     console.log(`Duplicates! Maybe the foe doesn't have many peers?`)
+    //     var notice = document.getElementById("duplicate-notice")
+    //     notice.classList.remove("hidden")
+    //     setTimeout(function(){
+    //         notice.classList.add("hidden")
+    //     }, 7000)
+    // }
+    for (let w = 1; w <= theSix.length; w++){
         var theName = theSix[w-1].name
         $(`#box${w}`).replaceWith(
             `<div id="box${w}" class="boxes clickable">
