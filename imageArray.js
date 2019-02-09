@@ -30,7 +30,7 @@ const STORE =
     'Ape': `https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS7CQy6jrBbqSks5lxpbR2F9UtPwUv1aFZ81WMU1Tp5Ade4KRPDEw `,
     'Archmage': `https://media-waterdeep.cursecdn.com/avatars/thumbnails/0/167/1000/1000/636252760213195530.jpeg `,
     'Assassin': `https://media-waterdeep.cursecdn.com/avatars/thumbnails/283/387/1000/1000/636604720808017718.jpeg `,
-    'Awakened Shrub': `https://66.media.tumblr.com/21f99f2ed09bc291f14d43a4ec5b5028/tumblr_peykszbN1n1uurxgjo1_500.png `,
+    'Awakened Shrub': `https://pbs.twimg.com/media/DZVzD_dV4AENW83.jpg `,
     'Awakened Tree': `https://i.imgur.com/9wcQG9l.jpg `,
     'Axe Break': `https://www.aidedd.org/dnd/images/axeBeak.jpg `,
     'Azer': `https://vignette.wikia.nocookie.net/dungeons/images/c/c2/Azer.jpg/revision/latest?cb=20091004034805 `,
