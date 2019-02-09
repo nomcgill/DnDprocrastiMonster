@@ -202,24 +202,24 @@ function savingThrow(modifier, throwProficiency){
 function getDetails(monster){
     console.log(`dex save:` + monster.dexterity_save)
     var monsterKeys = Object.keys(monster)
-        if (monster.dexterity_save == undefined){
+        if (monster.dexterity_save === undefined){
             Object.assign(monster, {dexterity_save: 0});
         }
-        if (monster.constitution_save == undefined){
+        if (monster.constitution_save === undefined){
             Object.assign(monster, {constitution_save: 0});
         }
-        if (monster.wisdom_save == undefined){
+        if (monster.wisdom_save === undefined){
             Object.assign(monster, {wisdom_save: 0});
         }
-        if (monster.charisma_save == undefined){
+        if (monster.charisma_save === undefined){
             Object.assign(monster, {charisma_save: 0});
         }
-        if (monster.special_abilities == undefined){
+        if (monster.special_abilities === undefined){
             Object.assign(monster, {special_abilities: "None."});
         }
     for (let z = 0; z < monsterKeys.length; z++){
         var key = monsterKeys[z]
-        if (monster[key] == "" || monster[key] == undefined){
+        if (monster[key] === "" || monster[key] === undefined){
             monster[key] = 0
         }
     }
