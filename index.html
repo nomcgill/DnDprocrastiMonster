@@ -6,25 +6,40 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>DnD ProcrastiMonster</title>
     <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="float-grid.css">
     <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css?family=Arimo" rel="stylesheet">
 </head>
 <body>
     <main class="container" id="container">
+        <header>
+        <div id="pane">
         <h1>D&D 5e ProcrastiMonster, DM's Companion</h1>
-        <p>For use with the tabletop game Dungeons and Dragons by Wizards of the Coast.</p>
-        <form>
-          <input type="number" name="challenge-rating" value="1" id="challenge-rating">
-          <input type="submit" value="Generate!" id="generate">
-          <p id="duplicate-notice" class="hidden">Duplicates! Maybe the foe doesn't have many peers?</p>
-        </form>
-        <img src="https://www.andrew.cmu.edu/user/okarabas/w/wp-content/plugins/wp-1-slider/images/loader/loading2.gif" id="loading-gif" alt="loading-gif" class="hidden"></img>
-        <img id="random" alt="random-home-image"></img>
-        <div id="box1" class="boxes"></div>
-        <div id="box2" class="boxes"></div>
-        <div id="box3" class="boxes"></div>
-        <div id="box4" class="boxes"></div>
-        <div id="box5" class="boxes"></div>
-        <div id="box6" class="boxes"></div>
+        <p>For use with the tabletop game Dungeons and Dragons.<br>
+            Find a monster by picture and Combat Rating! <b>Combat Rating</b> (CR) is intended to match a monster with 4 Adventurers of its equal level.</p>
+        <div id="form">
+            <form>
+            <img src="https://www.andrew.cmu.edu/user/okarabas/w/wp-content/plugins/wp-1-slider/images/loader/loading2.gif" id="loading-gif" alt="loading-gif" class="hidden"></img>
+            <input type="number" name="challenge-rating" value="0" id="challenge-rating">
+            <input type="submit" value="Generate!" id="generate">
+            </form>
+        </div>
+        </div>
+        </header>
+        <div id="base-container">
+            <img id="random" alt="random-home-image"></img>
+            <div id="grid-container" class="hidden">
+                <div id="box1" class="boxes"></div>
+                <div id="box2" class="boxes"></div>
+                <div id="box3" class="boxes"></div>
+                <div id="box4" class="boxes"></div>
+                <div id="box5" class="boxes"></div>
+                <div id="box6" class="boxes"></div>
+            </div>
+        <footer>
+            <br>
+            Dungeons and Dragons 5th Edition (SRD) is a product of <br>Wizards of the Coast LLC.
+        </footer>
     </main>
     <script src="imageArray.js"></script>
     <script src="index.js"></script>

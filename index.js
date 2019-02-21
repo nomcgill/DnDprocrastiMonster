@@ -6,8 +6,6 @@ const endPointMonsters = `http://www.dnd5eapi.co/api/monsters`;
 const values = Object.values(STORE)
 const keys = Object.keys(STORE)
 
-// console.log(STORE.Aboleth)
-
 //GET THOSE MONSTER OBJECTS BELOW!
 //----------------------------------
 function checkMonsterList(ratingInput) {
@@ -59,7 +57,7 @@ function gatherRelevantMonsters(theUrlArray, ratingInput) {
                 // console.log(singleMonsterResponse)
                 monsterObjectArray.push(singleMonsterResponse)
             })
-            .catch (error => alert (`Error in getRelevantMonsters: ${error.message}`));            
+            .catch (error => alert (`Error in gatherRelevantMonsters: ${error.message}`));            
         })
     )
     setTimeout(function(){
@@ -117,21 +115,16 @@ function filterMonsters(singleMonsterResponse, ratingInput) {
 }
 
 function assembleInfoOntoPage(theSix){
-    // console.log(`That includes a ` + theSix[0].name + `.`)
-    // if (theSix[0].name == theSix[1].name || theSix[0].name == theSix[2].name || theSix[0].name == theSix[3].name || theSix[0].name == theSix[4].name || theSix[0].name == theSix[5].name || theSix[1].name == theSix[2].name|| theSix[1].name == theSix[3].name|| theSix[1].name == theSix[4].name|| theSix[1].name == theSix[5].name){
-    //     console.log(`Duplicates! Maybe the foe doesn't have many peers?`)
-    //     var notice = document.getElementById("duplicate-notice")
-    //     notice.classList.remove("hidden")
-    //     setTimeout(function(){
-    //         notice.classList.add("hidden")
-    //     }, 7000)
-    // }
+    for (let w = 1; w <= 6; w++){
+        $(`#box${w}`).replaceWith(
+            `<div id="box${w}" class="boxes"></div>`
+          )
+    }
     for (let w = 1; w <= theSix.length; w++){
         var theName = theSix[w-1].name
         $(`#box${w}`).replaceWith(
             `<div id="box${w}" class="boxes clickable">
             <img src="${STORE[theName]}" alt="Picture of a(n) ${theName} needs updated." title="${theName}"></img>
-            <p>${theName}</p>
             </div>`
           )
           document.getElementsByClassName("clickable")[w-1].addEventListener("click", function(){getDetails(theSix[w-1])});
@@ -148,7 +141,7 @@ function singleHomeImage(){
     document.getElementById('random').src = homeMonsterUrl
     document.getElementById('random').alt = homeMonsterUrl
     document.getElementById('random').title = keys[randomIndex]
-    console.log(`homeMonsterUrl:` + homeMonsterUrl + `, randomIndex:` + randomIndex)
+    // console.log(`homeMonsterUrl:` + homeMonsterUrl + `, randomIndex:` + randomIndex)
 }
 
 singleHomeImage(STORE)
@@ -168,7 +161,7 @@ $(function() {
   watchForm();
 });
 
-function onGenerateClick(ratingInput){
+function onGenerateClick(){
     var submitButton = document.getElementById("generate")
     var submitField = document.getElementById("challenge-rating")
     var loadingSwirl = document.getElementById("loading-gif")
@@ -176,12 +169,16 @@ function onGenerateClick(ratingInput){
     submitButton.classList.add("hidden")
     submitField.classList.add("hidden")
     loadingSwirl.classList.remove("hidden")
-    homeMonster.classList.add("hidden")
     setTimeout(function(){
+        var grid = document.getElementById("grid-container")
+        grid.classList.add("grid-container")
+        grid.classList.remove("hidden")
         submitButton.classList.remove("hidden")
         submitField.classList.remove("hidden")
         loadingSwirl.classList.add("hidden")
-    }, 4400)
+        homeMonster.classList.add("hidden")
+        homeMonster.removeAttribute("id")
+    }, 4450)
 }
 
 function modifierCalculator(score){
@@ -206,9 +203,55 @@ function savingThrow(modifier, throwProficiency){
     return modifier + throwProficiency 
 }
 
+function monsterActions(input){
+    // console.log(input[1].name + `: input.`)
+    // console.log(`console log input are working`)
+    var actionNames = []
+    if (input === undefined){
+        return 'None.'
+    }
+    for (let i=0; i < input.length; i++){
+        actionNames.push(input[i].name)
+    }
+    return actionNames.join(', ')
+}
+
+function monsterLegendary(input){
+    // console.log(input[1].name + `: input actions.`)
+    var legendaryNames = []
+    if (input === undefined){
+        return 'None.'
+    }
+    for (let i=0; i < input.length; i++){
+        legendaryNames.push(input[i].name)
+    }
+    return legendaryNames.join(', ')
+}
+
+function monsterSpecial(input){
+    // console.log(special[1].name + `: special actions.`)
+    var specialNames = []
+    if (input === undefined){
+        return 'None.'
+    }
+    for (let i=0; i < input.length; i++){
+        specialNames.push(input[i].name)
+    }
+    return specialNames.join(', ')
+}
+
 function getDetails(monster){
-    console.log(`dex save:` + monster.dexterity_save)
+    var monstActions = monsterActions(monster.actions)
+    var monstLegendary = monsterLegendary(monster.legendary_actions)
+    var monstSpecial = monsterSpecial(monster.special_abilities)
+    // console.log(monstLegendary + ` AND returned into getDetails`)
     var monsterKeys = Object.keys(monster)
+        if (monster.intelligence_save === undefined){
+            Object.assign(monster, {intelligence_save: 0});
+        }
+        if (monster.strength_save === undefined){
+            Object.assign(monster, {strength_save: 0});
+        }
         if (monster.dexterity_save === undefined){
             Object.assign(monster, {dexterity_save: 0});
         }
@@ -221,22 +264,15 @@ function getDetails(monster){
         if (monster.charisma_save === undefined){
             Object.assign(monster, {charisma_save: 0});
         }
-        if (monster.special_abilities === undefined){
-            Object.assign(monster, {special_abilities: "None."});
-        }
+
     for (let z = 0; z < monsterKeys.length; z++){
         var key = monsterKeys[z]
         if (monster[key] === "" || monster[key] === undefined){
-            monster[key] = 0
+            monster[key] = 'None.'
         }
     }
-    console.log(`DEX save: ` + monster.dexterity_save)
     console.log(monster)
-    for (let w = 1; w <= 6; w++){
-        $(`#box${w}`).replaceWith(
-            `<div id="box${w}" class="boxes"></div>`
-          )
-    }
+
     $(`#box1`).replaceWith(
         `<div id="box1" class="boxes">
         <img src="${STORE[monster.name]}" alt="A picture of a(n) ${monster.name}" title="${monster.name}"</img>
@@ -244,7 +280,7 @@ function getDetails(monster){
     )
     $(`#box2`).replaceWith(
         `<div id="box2" class="boxes">
-        <h2>${monster.name}</h2>
+        <p>${monster.name.toUpperCase()}</p>
         <p>Challenge Rating: ${monster.challenge_rating}</p>
         <p>Type: ${monster.type}</p>
         <p>Size: ${monster.size}</p>
@@ -255,6 +291,17 @@ function getDetails(monster){
     )
     $(`#box3`).replaceWith(
         `<div id="box3" class="boxes">
+        <p>STATS AND BONUSES</p>
+        <p>Strength: ${monster.strength}</p>
+        <p>Dexterity: ${monster.dexterity}</p>
+        <p>Constitution: ${monster.constitution}</p>
+        <p>Intelligence: ${monster.intelligence}</p>
+        <p>Wisdom: ${monster.wisdom}</p>
+        <p>Charisma: ${monster.charisma}</p>
+        </div>`
+    )
+    $(`#box4`).replaceWith(
+        `<div id="box4" class="boxes">
         <p>DEFENSES</p>
         <p>Hit Points: ${monster.hit_points}</p>
         <p>AC: ${monster.armor_class}</p>
@@ -262,29 +309,27 @@ function getDetails(monster){
         <p>Resistances: ${monster.damage_resistances}</p>
         <p>Immunites: ${monster.damage_immunities}</p>
         <p>SAVE BONUSES</p>
-        <p>DEX: ${monster.dexterity_save}</p>
-        <p>CON: ${monster.constitution_save}</p>
-        <p>WIS: ${monster.wisdom_save}</p>
-        <p>CHA: ${monster.charisma_save}</p>
+        <p>STR: ${monster.strength_save + modifierCalculator(monster.strength)} / DEX: ${monster.dexterity_save + modifierCalculator(monster.dexterity)}</p>
+        <p>CON: ${monster.constitution_save + modifierCalculator(monster.constitution)} / INT: ${monster.intelligence_save + modifierCalculator(monster.intelligence)}</p>
+        <p>WIS: ${monster.wisdom_save + modifierCalculator(monster.wisdom)} / CHA: ${monster.charisma_save + modifierCalculator(monster.charisma)}</p>
         </div>`
     )
-    $(`#box4`).replaceWith(
-        `<div id="box4" class="boxes">
+    $(`#box5`).replaceWith(
+        `<div id="box5" class="boxes">
         <p>OTHER</p>
         <p>Perception: ${monster.perception}</p>
         <p>Languages: ${monster.languages}</p>
         <p>Stealth: ${monster.stealth}</p>
         <p>Immune to: ${monster.condition_immunities}</p>
-        <p>Senses:${monster.senses}</p>
-        </div>`
-    )
-    $(`#box5`).replaceWith(
-        `<div id="box5" class="boxes">
-        <p>Special Abilities: ${monster.special_abilities}</p>
+        <p>Senses: ${monster.senses}</p>
         </div>`
     )
     $(`#box6`).replaceWith(
-        `<div id="box6" class="boxes"></div>`
+        `<div id="box6" class="boxes">
+        <p>Actions: ${monstActions}</p>
+        <p>Legendary Actions: ${monstLegendary}</p>
+        <p>Special Abilities: ${monstSpecial}</p>
+        </div>`
     )
         // console.log(monster.special_abilities[1].attack_bonus + ` is the attack bonus!`)
 }
