@@ -70,7 +70,10 @@ function gatherRelevantMonsters(theUrlArray, ratingInput) {
                 filteredMonsters.push(singleMonsterResponse)
             }
         }
-        var theSix = shuffleMonsters(filteredMonsters)
+        // var theSix = shuffleMonsters(filteredMonsters)
+        var theSix = filteredMonsters
+
+
         //Now that we've got theSix, what are we going to do with them? (BELOW)
         // console.log(theSix[0].name + ` has an index of ` + theSix[0].index + ` which can be found at ` + theSix[0].url)
         assembleInfoOntoPage(theSix)
@@ -241,6 +244,7 @@ function monsterSpecial(input){
 }
 
 function getDetails(monster){
+    console.log('Monster', monster)
     var monstActions = monsterActions(monster.actions)
     var monstLegendary = monsterLegendary(monster.legendary_actions)
     var monstSpecial = monsterSpecial(monster.special_abilities)
@@ -271,64 +275,73 @@ function getDetails(monster){
             monster[key] = 'None.'
         }
     }
-    console.log(monster)
 
     $(`#box1`).replaceWith(
         `<div id="box1" class="boxes">
         <img src="${STORE[monster.name]}" alt="A picture of a(n) ${monster.name}" title="${monster.name}"</img>
+        <h3>${monster.name.toUpperCase()}</h3>
         </div>`
     )
     $(`#box2`).replaceWith(
         `<div id="box2" class="boxes">
-        <p>${monster.name.toUpperCase()}</p>
-        <p>Challenge Rating: ${monster.challenge_rating}</p>
-        <p>Type: ${monster.type}</p>
-        <p>Size: ${monster.size}</p>
-        <p>Speed: ${monster.speed}</p>
-        <p>Alignment: ${monster.alignment}</p>
-        <p>Hit Dice: ${monster.hit_dice}</p>
+        <h4>Challenge Rating: ${monster.challenge_rating}</h4>
+        <ul>
+            <li>Type: ${monster.type}</li>
+            <li>Size: ${monster.size}</li>
+            <li>Speed: ${monster.speed}</li>
+            <li>Alignment: ${monster.alignment}</li>
+            <li>Hit Dice: ${monster.hit_dice}</li>
+        <ul>
         </div>`
     )
     $(`#box3`).replaceWith(
         `<div id="box3" class="boxes">
-        <p>STATS AND BONUSES</p>
-        <p>Strength: ${monster.strength}</p>
-        <p>Dexterity: ${monster.dexterity}</p>
-        <p>Constitution: ${monster.constitution}</p>
-        <p>Intelligence: ${monster.intelligence}</p>
-        <p>Wisdom: ${monster.wisdom}</p>
-        <p>Charisma: ${monster.charisma}</p>
+        <h4>STATS AND BONUSES</h4>
+        <ul>
+            <li>Strength: ${monster.strength}</li>
+            <li>Dexterity: ${monster.dexterity}</li>
+            <li>Constitution: ${monster.constitution}</li>
+            <li>Intelligence: ${monster.intelligence}</li>
+            <li>Wisdom: ${monster.wisdom}</li>
+            <li>Charisma: ${monster.charisma}</li>
+        </ul>
         </div>`
     )
     $(`#box4`).replaceWith(
         `<div id="box4" class="boxes">
-        <p>DEFENSES</p>
-        <p>Hit Points: ${monster.hit_points}</p>
-        <p>AC: ${monster.armor_class}</p>
-        <p>Vulnerabilities: ${monster.damage_vulnerabilities}</p>
-        <p>Resistances: ${monster.damage_resistances}</p>
-        <p>Immunites: ${monster.damage_immunities}</p>
-        <p>SAVE BONUSES</p>
-        <p>STR: ${monster.strength_save + modifierCalculator(monster.strength)} / DEX: ${monster.dexterity_save + modifierCalculator(monster.dexterity)}</p>
-        <p>CON: ${monster.constitution_save + modifierCalculator(monster.constitution)} / INT: ${monster.intelligence_save + modifierCalculator(monster.intelligence)}</p>
-        <p>WIS: ${monster.wisdom_save + modifierCalculator(monster.wisdom)} / CHA: ${monster.charisma_save + modifierCalculator(monster.charisma)}</p>
+        <h4>DEFENSES</h4>
+        <ul>
+            <li>Hit Points: ${monster.hit_points}</li>
+            <li>AC: ${monster.armor_class}</li>
+            <li>Vulnerabilities: ${monster.damage_vulnerabilities}</li>
+            <li>Resistances: ${monster.damage_resistances}</li>
+            <li>Immunites: ${monster.damage_immunities}</li>
+            <li>SAVE BONUSES</li>
+            <li>STR: ${monster.strength_save + modifierCalculator(monster.strength)} / DEX: ${monster.dexterity_save + modifierCalculator(monster.dexterity)}</li>
+            <li>CON: ${monster.constitution_save + modifierCalculator(monster.constitution)} / INT: ${monster.intelligence_save + modifierCalculator(monster.intelligence)}</li>
+            <li>WIS: ${monster.wisdom_save + modifierCalculator(monster.wisdom)} / CHA: ${monster.charisma_save + modifierCalculator(monster.charisma)}</li>
+        </ul>
         </div>`
     )
     $(`#box5`).replaceWith(
         `<div id="box5" class="boxes">
-        <p>OTHER</p>
-        <p>Perception: ${monster.perception}</p>
-        <p>Languages: ${monster.languages}</p>
-        <p>Stealth: ${monster.stealth}</p>
-        <p>Immune to: ${monster.condition_immunities}</p>
-        <p>Senses: ${monster.senses}</p>
+        <h4>OTHER</h4>
+        <ul>
+            <li>Perception: ${monster.perception}</li>
+            <li>Languages: ${monster.languages}</li>
+            <li>Stealth: ${monster.stealth}</li>
+            <li>Immune to: ${monster.condition_immunities}</li>
+            <li>Senses: ${monster.senses}</li>
+        </ul>
         </div>`
     )
     $(`#box6`).replaceWith(
         `<div id="box6" class="boxes">
-        <p>Actions: ${monstActions}</p>
-        <p>Legendary Actions: ${monstLegendary}</p>
-        <p>Special Abilities: ${monstSpecial}</p>
+        <h4>Actions: ${monstActions}</h4>
+        <ul>
+            <li>Legendary Actions: ${monstLegendary}</li>
+            <li>Special Abilities: ${monstSpecial}</li>
+        </ul>
         </div>`
     )
         // console.log(monster.special_abilities[1].attack_bonus + ` is the attack bonus!`)
