@@ -1,15 +1,21 @@
 'use strict';
-//Url must be http, not https. For Dungeons and Dragons, the only functionable API with documentation uses HTTP.
+//Url must be http, not https. Mixed content will not work. 
+//For Dungeons and Dragons, the only functionable monster API with documentation uses HTTP.
 //See their site at http://www.dnd5eapi.co/.
 
-const endPointMonsters = `http://www.dnd5eapi.co/api/monsters`;
+const endPointMonsters = `https://cors-anywhere.herokuapp.com/http://www.dnd5eapi.co/api/monsters`;
 const values = Object.values(STORE)
 const keys = Object.keys(STORE)
 
 //GET THOSE MONSTER OBJECTS BELOW!
 //----------------------------------
+
 function checkMonsterList(ratingInput) {
-    fetch (endPointMonsters)
+    fetch (endPointMonsters, {
+        headers: {
+            "X-Requested-With": "XMLHttpRequest",
+        }
+    })
     .then(response => {
         if (response.ok) {
             return response.json();
@@ -18,27 +24,23 @@ function checkMonsterList(ratingInput) {
     })
     .then (monsterListJson => {
         grabCount(monsterListJson.count); 
-        // console.log(monsterListJson);
-        //createUrlMonsterArray(monsterListJson);
         gatherRelevantMonsters(createUrlMonsterArray(monsterListJson), ratingInput)
     })
     .catch (error => alert (`Error in checkMonsterList: ${error.message}`));
 }
 
-
-function grabCount(count){
-    console.log(count + ' total monsters searched in Dungeons and Dragons 5th edition SRD content.')
-}
-
-
 function createUrlMonsterArray(monsterListJson) {
     var urlArray = []
     var arrayLength = monsterListJson.results.length
     var eachResult = monsterListJson.results
-    // console.log(eachResult[0].url)
     for (let i = 0; i <= arrayLength - 1; i++){
         urlArray.push(eachResult[i].url)
-    }    return urlArray
+    }
+    return urlArray
+}
+
+function grabCount(count){
+    console.log(count + ' total monsters searched in Dungeons and Dragons 5th edition SRD content.')
 }
 
 // This is where the MAGIC happens. Gotta wait a few seconds, though.
@@ -46,7 +48,11 @@ function gatherRelevantMonsters(theUrlArray, ratingInput) {
     var monsterObjectArray = []
     monsterObjectArray.push(theUrlArray.forEach(function(theUrlArray){
             // console.log(theUrlArray + ` in the forEach function`)
-            fetch(theUrlArray)
+            fetch(theUrlArray, {
+                headers: {
+                    "X-Requested-With": "XMLHttpRequest",
+                }
+            })
             .then(response => {
                 if (response.ok) {
                 return response.json();
@@ -57,7 +63,7 @@ function gatherRelevantMonsters(theUrlArray, ratingInput) {
                 // console.log(singleMonsterResponse)
                 monsterObjectArray.push(singleMonsterResponse)
             })
-            .catch (error => alert (`Error in gatherRelevantMonsters: ${error.message}`));            
+            .catch (error => console.log(`Error in gatherRelevantMonsters: ${error.message}`));            
         })
     )
     setTimeout(function(){
@@ -66,12 +72,11 @@ function gatherRelevantMonsters(theUrlArray, ratingInput) {
         for (let i = 1; i < monsterObjectArray.length; i++){
             var singleMonsterResponse = monsterObjectArray[i]
             if (filterMonsters(singleMonsterResponse, ratingInput) === true){
-                // console.log(singleMonsterResponse.name + ` was true.`)
                 filteredMonsters.push(singleMonsterResponse)
             }
         }
-        // var theSix = shuffleMonsters(filteredMonsters)
-        var theSix = filteredMonsters
+        var theSix = shuffleMonsters(filteredMonsters)
+        // var theSix = filteredMonsters
 
 
         //Now that we've got theSix, what are we going to do with them? (BELOW)
@@ -94,10 +99,10 @@ function shuffleMonsters(arrayOfMonsters) {
     while (theSix.size < 6){
         var randomNumber = Math.floor(Math.random() * relevantLength)
         // console.log(randomNumber)
-        // if (arrayOfMonsters[randomNumber] != undefined )
-            // {
+        if (arrayOfMonsters[randomNumber] != undefined )
+            {
                 theSix.add(arrayOfMonsters[randomNumber])
-        // }
+        }
     }
     console.log(Array.from(theSix))
     
@@ -132,7 +137,6 @@ function assembleInfoOntoPage(theSix){
           )
           document.getElementsByClassName("clickable")[w-1].addEventListener("click", function(){getDetails(theSix[w-1])});
     }
-    
 }
 
 // console.log(STORE)
@@ -179,8 +183,10 @@ function onGenerateClick(){
         submitButton.classList.remove("hidden")
         submitField.classList.remove("hidden")
         loadingSwirl.classList.add("hidden")
-        homeMonster.classList.add("hidden")
-        homeMonster.removeAttribute("id")
+        if (homeMonster != null){
+            homeMonster.removeAttribute("id")
+            homeMonster.classList.add("hidden")
+        }
     }, 4450)
 }
 
@@ -207,8 +213,6 @@ function savingThrow(modifier, throwProficiency){
 }
 
 function monsterActions(input){
-    // console.log(input[1].name + `: input.`)
-    // console.log(`console log input are working`)
     var actionNames = []
     if (input === undefined){
         return 'None.'
@@ -279,13 +283,13 @@ function getDetails(monster){
     $(`#box1`).replaceWith(
         `<div id="box1" class="boxes">
         <img src="${STORE[monster.name]}" alt="A picture of a(n) ${monster.name}" title="${monster.name}"</img>
-        <h3>${monster.name.toUpperCase()}</h3>
         </div>`
     )
     $(`#box2`).replaceWith(
         `<div id="box2" class="boxes">
-        <h4>Challenge Rating: ${monster.challenge_rating}</h4>
+        <h3>${monster.name.toUpperCase()}</h3>
         <ul>
+            <li>Challenge Rating: ${monster.challenge_rating}</li>
             <li>Type: ${monster.type}</li>
             <li>Size: ${monster.size}</li>
             <li>Speed: ${monster.speed}</li>

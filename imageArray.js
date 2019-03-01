@@ -32,7 +32,7 @@ const STORE =
     'Assassin': `https://media-waterdeep.cursecdn.com/avatars/thumbnails/283/387/1000/1000/636604720808017718.jpeg `,
     'Awakened Shrub': `https://pbs.twimg.com/media/DZVzD_dV4AENW83.jpg `,
     'Awakened Tree': `https://i.imgur.com/9wcQG9l.jpg `,
-    'Axe Break': `https://www.aidedd.org/dnd/images/axeBeak.jpg `,
+    'Axe Beak': `https://www.aidedd.org/dnd/images/axeBeak.jpg `,
     'Azer': `https://vignette.wikia.nocookie.net/dungeons/images/c/c2/Azer.jpg/revision/latest?cb=20091004034805 `,
     'Baboon': `https://i.pinimg.com/736x/99/e4/03/99e4033bd17960ab3d69974eef31e74f--baboon-orangutans.jpg `,
     'Badger': `https://i.pinimg.com/236x/bd/2f/07/bd2f07221efb0e66fb38c2626989ff7a--badger-badger-badger-honey-badger-art.jpg `,

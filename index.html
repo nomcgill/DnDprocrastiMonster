@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>DnD ProcrastiMonster</title>
+    <title>D&D ProcrastiMonster</title>
     <link rel="stylesheet" href="index.css">
-    <link rel="stylesheet" href="float-grid.css">
+    <!-- <link rel="stylesheet" href="float-grid.css"> -->
     <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css?family=Arimo" rel="stylesheet">
 </head>
@@ -15,12 +15,13 @@
         <header>
         <div id="pane">
         <h1>D&D 5e ProcrastiMonster, DM's Companion</h1>
-        <p>For use with the tabletop game Dungeons and Dragons.<br>
+        <p id="description">For use with the tabletop game Dungeons and Dragons.<br>
             Find a monster by picture and Combat Rating! <b>Combat Rating</b> (CR) is intended to match a monster with 4 Adventurers of its equal level.</p>
+        <p id="short-description">Find a worthy foe by entering a Combat Rating!</p>
         <div id="form">
             <form>
             <img src="https://www.andrew.cmu.edu/user/okarabas/w/wp-content/plugins/wp-1-slider/images/loader/loading2.gif" id="loading-gif" alt="loading-gif" class="hidden"></img>
-            <input type="number" name="challenge-rating" value="10" id="challenge-rating">
+            <input type="number" min="0" max="30" onfocus="this.value=''" name="challenge-rating" value="0" id="challenge-rating">
             <input type="submit" value="Generate!" id="generate">
             </form>
         </div>
@@ -38,7 +39,7 @@
             </div>
         </main>
             <footer>
-                Dungeons and Dragons 5th Edition (SRD) is a product of <br>Wizards of the Coast LLC.
+                <a href="http://dnd.wizards.com/" target="_blank">Dungeons and Dragons 5th Edition (SRD)</a> is a product of <br><a href="http://company.wizards.com/" target="_blank">Wizards of the Coast LLC</a>.
             </footer>
     <script src="imageArray.js"></script>
     <script src="index.js"></script>
