@@ -1,15 +1,21 @@
 'use strict';
-//Url must be http, not https. For Dungeons and Dragons, the only functionable API with documentation uses HTTP.
+//Url must be http, not https. Mixed content will not work. 
+//For Dungeons and Dragons, the only functionable monster API with documentation uses HTTP.
 //See their site at http://www.dnd5eapi.co/.
 
-const endPointMonsters = `http://www.dnd5eapi.co/api/monsters`;
+const endPointMonsters = `https://cors-anywhere.herokuapp.com/http://www.dnd5eapi.co/api/monsters`;
 const values = Object.values(STORE)
 const keys = Object.keys(STORE)
 
 //GET THOSE MONSTER OBJECTS BELOW!
 //----------------------------------
+
 function checkMonsterList(ratingInput) {
-    fetch (endPointMonsters)
+    fetch (endPointMonsters, {
+        headers: {
+            "X-Requested-With": "XMLHttpRequest",
+        }
+    })
     .then(response => {
         if (response.ok) {
             return response.json();
@@ -18,27 +24,23 @@ function checkMonsterList(ratingInput) {
     })
     .then (monsterListJson => {
         grabCount(monsterListJson.count); 
-        // console.log(monsterListJson);
-        //createUrlMonsterArray(monsterListJson);
         gatherRelevantMonsters(createUrlMonsterArray(monsterListJson), ratingInput)
     })
     .catch (error => alert (`Error in checkMonsterList: ${error.message}`));
 }
 
-
-function grabCount(count){
-    console.log(count + ' total monsters searched in Dungeons and Dragons 5th edition SRD content.')
-}
-
-
 function createUrlMonsterArray(monsterListJson) {
     var urlArray = []
     var arrayLength = monsterListJson.results.length
     var eachResult = monsterListJson.results
-    // console.log(eachResult[0].url)
     for (let i = 0; i <= arrayLength - 1; i++){
         urlArray.push(eachResult[i].url)
-    }    return urlArray
+    }
+    return urlArray
+}
+
+function grabCount(count){
+    console.log(count + ' total monsters searched in Dungeons and Dragons 5th edition SRD content.')
 }
 
 // This is where the MAGIC happens. Gotta wait a few seconds, though.
@@ -46,7 +48,11 @@ function gatherRelevantMonsters(theUrlArray, ratingInput) {
     var monsterObjectArray = []
     monsterObjectArray.push(theUrlArray.forEach(function(theUrlArray){
             // console.log(theUrlArray + ` in the forEach function`)
-            fetch(theUrlArray)
+            fetch(theUrlArray, {
+                headers: {
+                    "X-Requested-With": "XMLHttpRequest",
+                }
+            })
             .then(response => {
                 if (response.ok) {
                 return response.json();
@@ -57,7 +63,7 @@ function gatherRelevantMonsters(theUrlArray, ratingInput) {
                 // console.log(singleMonsterResponse)
                 monsterObjectArray.push(singleMonsterResponse)
             })
-            .catch (error => alert (`Error in gatherRelevantMonsters: ${error.message}`));            
+            .catch (error => console.log(`Error in gatherRelevantMonsters: ${error.message}`));            
         })
     )
     setTimeout(function(){
@@ -66,11 +72,13 @@ function gatherRelevantMonsters(theUrlArray, ratingInput) {
         for (let i = 1; i < monsterObjectArray.length; i++){
             var singleMonsterResponse = monsterObjectArray[i]
             if (filterMonsters(singleMonsterResponse, ratingInput) === true){
-                // console.log(singleMonsterResponse.name + ` was true.`)
                 filteredMonsters.push(singleMonsterResponse)
             }
         }
         var theSix = shuffleMonsters(filteredMonsters)
+        // var theSix = filteredMonsters
+
+
         //Now that we've got theSix, what are we going to do with them? (BELOW)
         // console.log(theSix[0].name + ` has an index of ` + theSix[0].index + ` which can be found at ` + theSix[0].url)
         assembleInfoOntoPage(theSix)
@@ -91,10 +99,10 @@ function shuffleMonsters(arrayOfMonsters) {
     while (theSix.size < 6){
         var randomNumber = Math.floor(Math.random() * relevantLength)
         // console.log(randomNumber)
-        // if (arrayOfMonsters[randomNumber] != undefined )
-            // {
+        if (arrayOfMonsters[randomNumber] != undefined )
+            {
                 theSix.add(arrayOfMonsters[randomNumber])
-        // }
+        }
     }
     console.log(Array.from(theSix))
     
@@ -129,7 +137,6 @@ function assembleInfoOntoPage(theSix){
           )
           document.getElementsByClassName("clickable")[w-1].addEventListener("click", function(){getDetails(theSix[w-1])});
     }
-    
 }
 
 // console.log(STORE)
@@ -176,8 +183,10 @@ function onGenerateClick(){
         submitButton.classList.remove("hidden")
         submitField.classList.remove("hidden")
         loadingSwirl.classList.add("hidden")
-        homeMonster.classList.add("hidden")
-        homeMonster.removeAttribute("id")
+        if (homeMonster != null){
+            homeMonster.removeAttribute("id")
+            homeMonster.classList.add("hidden")
+        }
     }, 4450)
 }
 
@@ -204,8 +213,6 @@ function savingThrow(modifier, throwProficiency){
 }
 
 function monsterActions(input){
-    // console.log(input[1].name + `: input.`)
-    // console.log(`console log input are working`)
     var actionNames = []
     if (input === undefined){
         return 'None.'
@@ -241,6 +248,7 @@ function monsterSpecial(input){
 }
 
 function getDetails(monster){
+    console.log('Monster', monster)
     var monstActions = monsterActions(monster.actions)
     var monstLegendary = monsterLegendary(monster.legendary_actions)
     var monstSpecial = monsterSpecial(monster.special_abilities)
@@ -271,7 +279,6 @@ function getDetails(monster){
             monster[key] = 'None.'
         }
     }
-    console.log(monster)
 
     $(`#box1`).replaceWith(
         `<div id="box1" class="boxes">
@@ -280,55 +287,65 @@ function getDetails(monster){
     )
     $(`#box2`).replaceWith(
         `<div id="box2" class="boxes">
-        <p>${monster.name.toUpperCase()}</p>
-        <p>Challenge Rating: ${monster.challenge_rating}</p>
-        <p>Type: ${monster.type}</p>
-        <p>Size: ${monster.size}</p>
-        <p>Speed: ${monster.speed}</p>
-        <p>Alignment: ${monster.alignment}</p>
-        <p>Hit Dice: ${monster.hit_dice}</p>
+        <h3>${monster.name.toUpperCase()}</h3>
+        <ul>
+            <li>Challenge Rating: ${monster.challenge_rating}</li>
+            <li>Type: ${monster.type}</li>
+            <li>Size: ${monster.size}</li>
+            <li>Speed: ${monster.speed}</li>
+            <li>Alignment: ${monster.alignment}</li>
+            <li>Hit Dice: ${monster.hit_dice}</li>
+        <ul>
         </div>`
     )
     $(`#box3`).replaceWith(
         `<div id="box3" class="boxes">
-        <p>STATS AND BONUSES</p>
-        <p>Strength: ${monster.strength}</p>
-        <p>Dexterity: ${monster.dexterity}</p>
-        <p>Constitution: ${monster.constitution}</p>
-        <p>Intelligence: ${monster.intelligence}</p>
-        <p>Wisdom: ${monster.wisdom}</p>
-        <p>Charisma: ${monster.charisma}</p>
+        <h4>STATS AND BONUSES</h4>
+        <ul>
+            <li>Strength: ${monster.strength}</li>
+            <li>Dexterity: ${monster.dexterity}</li>
+            <li>Constitution: ${monster.constitution}</li>
+            <li>Intelligence: ${monster.intelligence}</li>
+            <li>Wisdom: ${monster.wisdom}</li>
+            <li>Charisma: ${monster.charisma}</li>
+        </ul>
         </div>`
     )
     $(`#box4`).replaceWith(
         `<div id="box4" class="boxes">
-        <p>DEFENSES</p>
-        <p>Hit Points: ${monster.hit_points}</p>
-        <p>AC: ${monster.armor_class}</p>
-        <p>Vulnerabilities: ${monster.damage_vulnerabilities}</p>
-        <p>Resistances: ${monster.damage_resistances}</p>
-        <p>Immunites: ${monster.damage_immunities}</p>
-        <p>SAVE BONUSES</p>
-        <p>STR: ${monster.strength_save + modifierCalculator(monster.strength)} / DEX: ${monster.dexterity_save + modifierCalculator(monster.dexterity)}</p>
-        <p>CON: ${monster.constitution_save + modifierCalculator(monster.constitution)} / INT: ${monster.intelligence_save + modifierCalculator(monster.intelligence)}</p>
-        <p>WIS: ${monster.wisdom_save + modifierCalculator(monster.wisdom)} / CHA: ${monster.charisma_save + modifierCalculator(monster.charisma)}</p>
+        <h4>DEFENSES</h4>
+        <ul>
+            <li>Hit Points: ${monster.hit_points}</li>
+            <li>AC: ${monster.armor_class}</li>
+            <li>Vulnerabilities: ${monster.damage_vulnerabilities}</li>
+            <li>Resistances: ${monster.damage_resistances}</li>
+            <li>Immunites: ${monster.damage_immunities}</li>
+            <li>SAVE BONUSES</li>
+            <li>STR: ${monster.strength_save + modifierCalculator(monster.strength)} / DEX: ${monster.dexterity_save + modifierCalculator(monster.dexterity)}</li>
+            <li>CON: ${monster.constitution_save + modifierCalculator(monster.constitution)} / INT: ${monster.intelligence_save + modifierCalculator(monster.intelligence)}</li>
+            <li>WIS: ${monster.wisdom_save + modifierCalculator(monster.wisdom)} / CHA: ${monster.charisma_save + modifierCalculator(monster.charisma)}</li>
+        </ul>
         </div>`
     )
     $(`#box5`).replaceWith(
         `<div id="box5" class="boxes">
-        <p>OTHER</p>
-        <p>Perception: ${monster.perception}</p>
-        <p>Languages: ${monster.languages}</p>
-        <p>Stealth: ${monster.stealth}</p>
-        <p>Immune to: ${monster.condition_immunities}</p>
-        <p>Senses: ${monster.senses}</p>
+        <h4>OTHER</h4>
+        <ul>
+            <li>Perception: ${monster.perception}</li>
+            <li>Languages: ${monster.languages}</li>
+            <li>Stealth: ${monster.stealth}</li>
+            <li>Immune to: ${monster.condition_immunities}</li>
+            <li>Senses: ${monster.senses}</li>
+        </ul>
         </div>`
     )
     $(`#box6`).replaceWith(
         `<div id="box6" class="boxes">
-        <p>Actions: ${monstActions}</p>
-        <p>Legendary Actions: ${monstLegendary}</p>
-        <p>Special Abilities: ${monstSpecial}</p>
+        <h4>Actions: ${monstActions}</h4>
+        <ul>
+            <li>Legendary Actions: ${monstLegendary}</li>
+            <li>Special Abilities: ${monstSpecial}</li>
+        </ul>
         </div>`
     )
         // console.log(monster.special_abilities[1].attack_bonus + ` is the attack bonus!`)
