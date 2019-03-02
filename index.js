@@ -341,10 +341,17 @@ function getDetails(monster){
     )
     $(`#box6`).replaceWith(
         `<div id="box6" class="boxes">
-        <h4>Actions: ${monstActions}</h4>
+        <h4>ACTIONS:</h4> 
         <ul>
-            <li>Legendary Actions: ${monstLegendary}</li>
-            <li>Special Abilities: ${monstSpecial}</li>
+            <li>${monstActions}</li>
+        </ul>
+        <h4>LEGENDARY ACTIONS:</h4>
+        <ul>
+            <li>${monstLegendary}</li>
+        </ul> 
+        <h4>SPECIAL ABILITIES:</h4> 
+        <ul>
+            <li>${monstSpecial}</li>
         </ul>
         </div>`
     )
