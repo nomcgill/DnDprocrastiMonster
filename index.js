@@ -3,13 +3,47 @@
 //For Dungeons and Dragons, the only functionable monster API with documentation uses HTTP.
 //See their site at http://www.dnd5eapi.co/.
 
-const endPointMonsters = `https://cors-anywhere.herokuapp.com/http://www.dnd5eapi.co/api/monsters`;
+const endPointMonsters = `http://www.dnd5eapi.co/api/monsters`;
 const values = Object.values(STORE)
 const keys = Object.keys(STORE)
 
-//GET THOSE MONSTER OBJECTS BELOW!
-//----------------------------------
 
+// THE LOADUP...
+function watchForm() {
+    $('form').submit(event => {
+      event.preventDefault();
+      onGenerateClick()
+       var ratingInput = document.getElementById("challenge-rating").value
+       checkMonsterList(ratingInput)
+       });
+  }
+  
+$(function() {
+    console.log('App loaded! Waiting for submit!');
+    watchForm();
+});
+
+function singleHomeImage(){
+    // change relevant length to STORE.length when URLs are done. 
+    var relevantLength = 133
+    var randomIndex = Math.floor(Math.random() * (relevantLength - 0 + 1))
+    var homeMonsterUrl = values[randomIndex]
+    document.getElementById('random').src = homeMonsterUrl
+    document.getElementById('random').alt = homeMonsterUrl
+    document.getElementById('random').title = keys[randomIndex]
+}
+
+singleHomeImage(STORE)
+
+document.getElementById('challenge-rating').oninput = function () {
+    var max = parseInt(this.max);
+
+    if (parseInt(this.value) > max) {
+        this.value = max; 
+    }
+}
+
+// WE'VE GOTTA CHECK THAT API FOR ALL THE MONSTERS...
 function checkMonsterList(ratingInput) {
     fetch (endPointMonsters, {
         headers: {
@@ -47,7 +81,6 @@ function grabCount(count){
 function gatherRelevantMonsters(theUrlArray, ratingInput) {
     var monsterObjectArray = []
     monsterObjectArray.push(theUrlArray.forEach(function(theUrlArray){
-            // console.log(theUrlArray + ` in the forEach function`)
             fetch(theUrlArray, {
                 headers: {
                     "X-Requested-With": "XMLHttpRequest",
@@ -60,14 +93,12 @@ function gatherRelevantMonsters(theUrlArray, ratingInput) {
                 throw new Error (response.statusText);
             })
             .then (singleMonsterResponse => {
-                // console.log(singleMonsterResponse)
                 monsterObjectArray.push(singleMonsterResponse)
             })
             .catch (error => console.log(`Error in gatherRelevantMonsters: ${error.message}`));            
         })
     )
     setTimeout(function(){
-        // console.log(monsterObjectArray)
         var filteredMonsters = []
         for (let i = 1; i < monsterObjectArray.length; i++){
             var singleMonsterResponse = monsterObjectArray[i]
@@ -76,26 +107,30 @@ function gatherRelevantMonsters(theUrlArray, ratingInput) {
             }
         }
         var theSix = shuffleMonsters(filteredMonsters)
-        // var theSix = filteredMonsters
-
-
-        //Now that we've got theSix, what are we going to do with them? (BELOW)
-        // console.log(theSix[0].name + ` has an index of ` + theSix[0].index + ` which can be found at ` + theSix[0].url)
         assembleInfoOntoPage(theSix)
         }, 4150)
 }
 
+// Let's find some worthy foes!
+function filterMonsters(singleMonsterResponse, ratingInput) {
+    var monsterRating = singleMonsterResponse.challenge_rating
+    if (monsterRating - ratingInput <= 1 && ratingInput - monsterRating <= 1){
+        return true
+    }
+    else {
+        return false
+    }
+}
+
 //There's only 6, and they shouldn't be the same ones!
 function shuffleMonsters(arrayOfMonsters) {
-    // console.log(`shuffleMonsters is happening`)
     var relevantLength = arrayOfMonsters.length
     if(relevantLength <= 6) {
         console.log(arrayOfMonsters)
         return arrayOfMonsters
     }
     console.log(arrayOfMonsters.length + ` total monsters are worthy.`)
-    // var theSix = []
-    var theSix = new Set()
+    var theSix = new Set()        
     while (theSix.size < 6){
         var randomNumber = Math.floor(Math.random() * relevantLength)
         // console.log(randomNumber)
@@ -105,23 +140,10 @@ function shuffleMonsters(arrayOfMonsters) {
         }
     }
     console.log(Array.from(theSix))
-    
     return Array.from(theSix)
 }
 
-// Let's find some worthy foes!
-function filterMonsters(singleMonsterResponse, ratingInput) {
-    var monsterRating = singleMonsterResponse.challenge_rating
-    // console.log(ratingInput)
-    // console.log(monsterRating)
-    if (monsterRating - ratingInput <= 1 && ratingInput - monsterRating <= 1){
-        return true
-    }
-    else {
-        return false
-    }
-}
-
+// NOW LET'S MANIPULATE THAT DOM!
 function assembleInfoOntoPage(theSix){
     for (let w = 1; w <= 6; w++){
         $(`#box${w}`).replaceWith(
@@ -132,41 +154,12 @@ function assembleInfoOntoPage(theSix){
         var theName = theSix[w-1].name
         $(`#box${w}`).replaceWith(
             `<div id="box${w}" class="boxes clickable">
-            <img src="${STORE[theName]}" alt="Picture of a(n) ${theName} needs updated." title="${theName}"></img>
+                <img src="${STORE[theName]}" alt="Picture of a(n) ${theName} needs updated." title="theName"></img>
             </div>`
           )
           document.getElementsByClassName("clickable")[w-1].addEventListener("click", function(){getDetails(theSix[w-1])});
     }
 }
-
-// console.log(STORE)
-function singleHomeImage(){
-    var relevantLength = 133
-    // relevantLength = STORE.length WHEN MY STORE ARRAY IS COMPLETE
-    var randomIndex = Math.floor(Math.random() * (relevantLength - 0 + 1))
-    var homeMonsterUrl = values[randomIndex]
-    document.getElementById('random').src = homeMonsterUrl
-    document.getElementById('random').alt = homeMonsterUrl
-    document.getElementById('random').title = keys[randomIndex]
-    // console.log(`homeMonsterUrl:` + homeMonsterUrl + `, randomIndex:` + randomIndex)
-}
-
-singleHomeImage(STORE)
-
-function watchForm() {
-  $('form').submit(event => {
-    event.preventDefault();
-    onGenerateClick()
-     var ratingInput = document.getElementById("challenge-rating").value
-    //  console.log(ratingInput)
-     checkMonsterList(ratingInput)
-     });
-}
-
-$(function() {
-  console.log('App loaded! Waiting for submit!');
-  watchForm();
-});
 
 function onGenerateClick(){
     var submitButton = document.getElementById("generate")
@@ -190,6 +183,7 @@ function onGenerateClick(){
     }, 4450)
 }
 
+//  LET'S DISPLAY THOSE DETAILS BELOW!
 function modifierCalculator(score){
     if (score < 4){return -4}
     if (score == 4 || score == 5){return -3}
@@ -224,7 +218,6 @@ function monsterActions(input){
 }
 
 function monsterLegendary(input){
-    // console.log(input[1].name + `: input actions.`)
     var legendaryNames = []
     if (input === undefined){
         return 'None.'
@@ -236,7 +229,6 @@ function monsterLegendary(input){
 }
 
 function monsterSpecial(input){
-    // console.log(special[1].name + `: special actions.`)
     var specialNames = []
     if (input === undefined){
         return 'None.'
@@ -252,7 +244,6 @@ function getDetails(monster){
     var monstActions = monsterActions(monster.actions)
     var monstLegendary = monsterLegendary(monster.legendary_actions)
     var monstSpecial = monsterSpecial(monster.special_abilities)
-    // console.log(monstLegendary + ` AND returned into getDetails`)
     var monsterKeys = Object.keys(monster)
         if (monster.intelligence_save === undefined){
             Object.assign(monster, {intelligence_save: 0});
@@ -320,7 +311,9 @@ function getDetails(monster){
             <li>Vulnerabilities: ${monster.damage_vulnerabilities}</li>
             <li>Resistances: ${monster.damage_resistances}</li>
             <li>Immunites: ${monster.damage_immunities}</li>
-            <li>SAVE BONUSES</li>
+        </ul>
+        <h4>SAVE BONUSES</h4>
+        <ul>
             <li>STR: ${monster.strength_save + modifierCalculator(monster.strength)} / DEX: ${monster.dexterity_save + modifierCalculator(monster.dexterity)}</li>
             <li>CON: ${monster.constitution_save + modifierCalculator(monster.constitution)} / INT: ${monster.intelligence_save + modifierCalculator(monster.intelligence)}</li>
             <li>WIS: ${monster.wisdom_save + modifierCalculator(monster.wisdom)} / CHA: ${monster.charisma_save + modifierCalculator(monster.charisma)}</li>
@@ -355,5 +348,4 @@ function getDetails(monster){
         </ul>
         </div>`
     )
-        // console.log(monster.special_abilities[1].attack_bonus + ` is the attack bonus!`)
 }

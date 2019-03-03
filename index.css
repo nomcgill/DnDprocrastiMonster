@@ -1,19 +1,22 @@
 * {
   box-sizing: border-box;
-  /* background-color: gray; */
-  /* max-height: 600px; */
-  /* max-height: 100%; */
 }
 
 html, body {
   height: 100%;
+  background-image: url('https://i.redd.it/jadgq6zuyozy.jpg');
+  background-size: cover;
 }
 
 body > *:first-child { 
   margin-top: 0; 
 }
 
-#base-container {padding: 10px;max-height: 100%;}
+#base-container {
+  padding: 10px;
+  max-height: 100%;
+  background-color: white;
+}
 
 #pane {
   background-image: linear-gradient(to bottom right, gray, rgb(46, 46, 46));
@@ -24,15 +27,16 @@ body > *:first-child {
   justify-content: center;
   align-items: center;
   width: 350px;
-  /* max-height: 400px; */
   padding: 20px;
   overflow: hidden;
 }
 
 .boxes img {
-object-fit: cover;
-height: 200px;
-margin: 0 auto;
+  object-fit: cover;
+  height: 192px;
+  margin: 0 auto;
+  align-self: center;
+  justify-self: center;
 }
 
 .grid-container {
@@ -40,65 +44,44 @@ margin: 0 auto;
   display: grid;
   justify-items: center;
   grid-template-columns: repeat(3, 2fr);
-/* grid-auto-rows: 200px;   */
-/* background-color: #2196F3;
-padding: 10px; */
-}
-
-#grid-container *{
-/* background-color: orange; */
-}
-
-.boxes {
-  /* display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden; */
-
-
-  /* float: left;
-  border: 1px solid black;
-  height: 230px; */
 }
 
 body {
-font-family: 'Arimo', sans-serif;
+  font-family: 'Arimo', sans-serif;
 }
 
 header {
-width: 100%;
-color: white;
+  width: 100%;
+  color: white;
 }
 
 #random {
-margin: 0 auto;
+  margin: 0 auto;
 }
 
 h1 {
-font-size: 35px;
-padding-left: 10px;
-padding-top: 7px;
-margin: 0px;
+  font-size: 35px;
+  padding-left: 10px;
+  padding-top: 7px;
+  margin: 0px;
 }
 
 header p{
-font-size: 15px;
-padding: 0px 10px;
-margin-left: 10px;
+  font-size: 15px;
+  padding: 0px 10px;
+  margin: 0px 0px 15px 10px;  
 }
 
 div#form{
-text-align: center;
+  text-align: center;
 }
 
 form {
-display: inline-block;
-padding-bottom: 10px;
+  display: inline-block;
 }
 
 main {
   max-width: 1000px;
-  /* padding: 5px 20px 5px; */
   margin: 0 auto;
 }
 
@@ -106,22 +89,22 @@ main {
   margin-top: 15px;
   height: 25px;
   text-align: center;
-  margin-bottom: 14px;
+  margin-bottom: 8px;
 }
 
 input[type=number]::-webkit-inner-spin-button, 
 input[type=number]::-webkit-outer-spin-button { 
--webkit-appearance: none; 
+  -webkit-appearance: none; 
 margin: 0; 
 }
 
 #challenge-rating{
-width: 50px;
-height: 47px;
-font-size: 22px;
-font-weight: bold;
-text-align: center;
-font-size: 20px;
+  width: 50px;
+  height: 47px;
+  font-size: 22px;
+  font-weight: bold;
+  text-align: center;
+  font-size: 20px;
 }
 
 #generate {
@@ -131,10 +114,9 @@ font-size: 20px;
   font-weight: bold;
   padding: 15px 5px 13px;
   text-align: center;
-  /* display: inline-block; */
   font-size: 15px;
   transition: 0.3s;
-  margin-bottom: 10px;
+  margin-bottom: 4px;
 }
 
 #generate:hover {
@@ -146,9 +128,12 @@ font-size: 20px;
 
 
 footer {
-width: 100%;
-margin: 0 auto;
-text-align: center;
+  max-width: 1000px;
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+  background-color: white;
+  overflow: hidden;
 }
 
 .hidden {
@@ -161,36 +146,52 @@ text-align: center;
   margin-bottom: 10px;
 }
 
-#box6 h4{
+h3 {
+  text-decoration: underline;
+}
+
+h4 {
   margin-bottom: -16px;
+  text-decoration: underline;
+}
+
+form p {
+  font-size: 11px;
+  margin-bottom: 0px;
+}
+
+ul {
+  list-style-type: none;
+}
+
+.boxes img:hover {
+  cursor: pointer;
 }
 
 /* BIG SCREEN BELOW */
-@media screen and (min-width: 601px) {
+@media screen and (min-width: 641px) {
   #short-description {
     display:none;
   }
 
-
 }
 
 /* RESPONSIVE SMALL SCREEN BELOW */
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 640px) {
   #description{
     display: none;
   }
 
   .grid-container {
-    padding: 15px;
     grid-template-columns: repeat(2, 3fr);
-  }
-
-  .boxes {
-    max-width: 50%;
   }
 
   #challenge-rating {
     height: 31px;
+  }
+
+  .boxes img {
+    height: 165px;
   }
 
   #generate {
@@ -201,8 +202,12 @@ text-align: center;
     font-size: 20px;
     margin: 0 auto;
     width: 400px;
-    padding: 0;
+    padding: 0px;
     padding-top: 7px;
+  }
+  
+  li {
+    font-size: 12px;
   }
 }
 
