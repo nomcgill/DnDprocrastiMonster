@@ -1,5 +1,5 @@
 'use strict';
-//Url must be http, not https. Mixed content will not work. 
+//URL must be HTTP, not HTTPS. Mixed content will not work. 
 //For Dungeons and Dragons, the only functionable monster API with documentation uses HTTP.
 //See their site at http://www.dnd5eapi.co/.
 
@@ -23,17 +23,14 @@ $(function() {
     watchForm();
 });
 
-function singleHomeImage(){
-    // change relevant length to STORE.length when URLs are done. 
-    var relevantLength = 133
+!function singleHomeImage(){
+    var relevantLength = 325
     var randomIndex = Math.floor(Math.random() * (relevantLength - 0 + 1))
     var homeMonsterUrl = values[randomIndex]
     document.getElementById('random').src = homeMonsterUrl
     document.getElementById('random').alt = homeMonsterUrl
     document.getElementById('random').title = keys[randomIndex]
-}
-
-singleHomeImage(STORE)
+}()
 
 document.getElementById('challenge-rating').oninput = function () {
     var max = parseInt(this.max);
@@ -99,6 +96,7 @@ function gatherRelevantMonsters(theUrlArray, ratingInput) {
         })
     )
     setTimeout(function(){
+        console.log(monsterObjectArray.length + ` monsters checked.`)
         var filteredMonsters = []
         for (let i = 1; i < monsterObjectArray.length; i++){
             var singleMonsterResponse = monsterObjectArray[i]
@@ -108,7 +106,7 @@ function gatherRelevantMonsters(theUrlArray, ratingInput) {
         }
         var theSix = shuffleMonsters(filteredMonsters)
         assembleInfoOntoPage(theSix)
-        }, 4150)
+        }, 7150)
 }
 
 // Let's find some worthy foes!
@@ -129,11 +127,10 @@ function shuffleMonsters(arrayOfMonsters) {
         console.log(arrayOfMonsters)
         return arrayOfMonsters
     }
-    console.log(arrayOfMonsters.length + ` total monsters are worthy.`)
+    console.log(arrayOfMonsters.length + ` total worthy monsters found.`)
     var theSix = new Set()        
     while (theSix.size < 6){
         var randomNumber = Math.floor(Math.random() * relevantLength)
-        // console.log(randomNumber)
         if (arrayOfMonsters[randomNumber] != undefined )
             {
                 theSix.add(arrayOfMonsters[randomNumber])
@@ -154,7 +151,7 @@ function assembleInfoOntoPage(theSix){
         var theName = theSix[w-1].name
         $(`#box${w}`).replaceWith(
             `<div id="box${w}" class="boxes clickable">
-                <img src="${STORE[theName]}" alt="Picture of a(n) ${theName} needs updated." title="theName"></img>
+                <img src="${STORE[theName]}" alt="Picture of a(n) ${theName} needs updated." title="${theName}"></img>
             </div>`
           )
           document.getElementsByClassName("clickable")[w-1].addEventListener("click", function(){getDetails(theSix[w-1])});
@@ -180,7 +177,7 @@ function onGenerateClick(){
             homeMonster.removeAttribute("id")
             homeMonster.classList.add("hidden")
         }
-    }, 4450)
+    }, 7350)
 }
 
 //  LET'S DISPLAY THOSE DETAILS BELOW!

@@ -12,6 +12,10 @@ body > *:first-child {
   margin-top: 0; 
 }
 
+body * {
+  overflow: hidden;
+}
+
 #base-container {
   padding: 10px;
   max-height: 100%;
@@ -28,7 +32,6 @@ body > *:first-child {
   align-items: center;
   width: 350px;
   padding: 20px;
-  overflow: hidden;
 }
 
 .boxes img {
@@ -148,6 +151,8 @@ footer {
 
 h3 {
   text-decoration: underline;
+  font-size: 20px;
+  padding-left: 8px;
 }
 
 h4 {
@@ -182,6 +187,10 @@ ul {
     display: none;
   }
 
+  #loading-gif {
+    margin-top: 0px; 
+  }
+
   .grid-container {
     grid-template-columns: repeat(2, 3fr);
   }
@@ -199,15 +208,45 @@ ul {
   }
 
   h1 {
-    font-size: 20px;
+    font-size: 19px;
     margin: 0 auto;
     width: 400px;
     padding: 0px;
     padding-top: 7px;
+    padding-left: 10px;
+  }
+
+  #description {
+    margin-right: 10px;
   }
   
   li {
     font-size: 12px;
   }
+
+  .boxes ul {
+    padding-left: 0px;
+  }
+
+  footer {
+    font-size: 12px;
+  }
+
+  #box2, #box4, #box6 {
+    overflow: hidden;
+  }
 }
 
+@media screen and (max-width: 405px) {
+  h1 {
+    font-size: 17px;
+  }
+
+  .boxes img {
+    height: 135px;
+  }
+
+  #random {
+    width: 100%;
+  }
+}
