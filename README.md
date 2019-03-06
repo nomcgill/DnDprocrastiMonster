@@ -24,7 +24,7 @@ Below the static header pane is the bread and butter of the app—**the body**. 
 3. **Details.** A grid of information. After a monster has been selected, many statistics display. Either the user has reached their destination, or they can proceed to generate another six monsters using the top pane. 
 
 ## UNDER THE HOOD
-
+* HTML, CSS, JavaScript, JQuery, and JSON API GET requests
 ### The API
 This app uses a 3rd party API created and open-sourced by Adrian Padua in 2016. The API was the most complete D&D monster API that could be found in January, 2019. Unfortunately, *D&D 5e API* is not https. As http, Cross-Origin requests are not possible in some formats. This means that the GET requests will not work for some users. For more informataion, see [MDN web docs](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS). The easiest method to bipass is to either use the app locally, or to use the app from an http to start. Repl.it houses the http domain for the example at the end of this README. 
 
