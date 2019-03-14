@@ -10,15 +10,15 @@
     <link href="https://fonts.googleapis.com/css?family=Arimo" rel="stylesheet">
 </head>
 <body>
-    <main class="container" id="container">
-        <header>
+    <main role="main" class="container" id="container">
+        <header role="banner">
         <div id="pane">
         <h1>D&D 5e ProcrastiMonster, DM's Companion</h1>
         <p id="description">For use with the tabletop game Dungeons and Dragons.<br>
-            Find a monster by picture and Combat Rating! <b>Combat Rating</b> (CR) is intended to match a monster with 4 Adventurers of its equal level.</p>
+            Find a monster by image and Combat Rating! <b>Combat Rating</b> (CR) is intended to match a monster with 4 Adventurers of its equal level.</p>
         <p id="short-description">Find a worthy foe by entering a Combat Rating!</p>
         <div id="form">
-            <form>
+            <form role="search">
                 <img src="https://www.andrew.cmu.edu/user/okarabas/w/wp-content/plugins/wp-1-slider/images/loader/loading2.gif" id="loading-gif" alt="loading-gif" class="hidden"></img>
                 <input type="number" min="0" max="30" onfocus="this.value=''" name="challenge-rating" value="0" id="challenge-rating">
                 <input type="submit" value="Generate!" id="generate">
@@ -38,7 +38,7 @@
                 <div id="box6" class="boxes"></div>
             </div>
         </main>
-            <footer>
+            <footer role="contentinfo"></footer>
                 <a href="http://dnd.wizards.com/" target="_blank">Dungeons and Dragons 5th Edition (SRD)</a> is a product of <br><a href="http://company.wizards.com/" target="_blank">Wizards of the Coast LLC</a>.
             </footer>
     <script src="imageArray.js"></script>

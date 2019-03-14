@@ -42,11 +42,7 @@ document.getElementById('challenge-rating').oninput = function () {
 
 // WE'VE GOTTA CHECK THAT API FOR ALL THE MONSTERS...
 function checkMonsterList(ratingInput) {
-    fetch (endPointMonsters, {
-        headers: {
-            "X-Requested-With": "XMLHttpRequest",
-        }
-    })
+    fetch (endPointMonsters)
     .then(response => {
         if (response.ok) {
             return response.json();
@@ -59,6 +55,7 @@ function checkMonsterList(ratingInput) {
     })
     .catch (error => alert (`Error in checkMonsterList: ${error.message}`));
 }
+
 
 function createUrlMonsterArray(monsterListJson) {
     var urlArray = []
@@ -151,7 +148,7 @@ function assembleInfoOntoPage(theSix){
         var theName = theSix[w-1].name
         $(`#box${w}`).replaceWith(
             `<div id="box${w}" class="boxes clickable">
-                <img src="${STORE[theName]}" alt="Picture of a(n) ${theName} needs updated." title="${theName}"></img>
+                <img src="${STORE[theName]}" alt="${theName}" title="${theName}"></img>
             </div>`
           )
           document.getElementsByClassName("clickable")[w-1].addEventListener("click", function(){getDetails(theSix[w-1])});
@@ -270,7 +267,7 @@ function getDetails(monster){
 
     $(`#box1`).replaceWith(
         `<div id="box1" class="boxes">
-        <img src="${STORE[monster.name]}" alt="A picture of a(n) ${monster.name}" title="${monster.name}"</img>
+        <img src="${STORE[monster.name]}" alt="${monster.name}" title="${monster.name}"</img>
         </div>`
     )
     $(`#box2`).replaceWith(
