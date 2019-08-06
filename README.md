@@ -38,14 +38,13 @@ As the form is submitted, four things happen in sequence:
 1. A GET request fetches an object filled with individual monster JSON URLS. An array is built with all of them.
 2. Each of those URLs are fetched from using a loop. A new array is built with hundreds of individual monster data.
 3. That monster data is looked through. Each monster is filtered in or out by comparing to the Combat Rating input by the User, their order is shuffled, and the first six are truncated into the final monster array stored in var = theSix.
-4. After a setTimeout waits for all of that, theSix displayed on the UI, ready to click on for details.
+4. After promises resolve, theSix display on the UI, ready to click on for details.
 
 ## To Be Continued...
 
 The app still has improvements to be made! Upcoming changes include:
 * Hovering. On the details page, hovering should display additional information on what skills and actions do and mean. Hovering over any monster image should display its name in a clean, appealing way.
 * Timing. Generating takes a while. The user would benefit from an initial load-up of the used API information. Waiting on load-up would be a lot less frustrating than waiting in between clicks.
-* Promises. *setTimeout*s are obviously not best practice. Once I get promises working, I'll implement them.
 * Consistent images. Increased uniformity between images would look much cleaner.
 
 ## See It Working
