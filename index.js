@@ -12,7 +12,6 @@ const keys = Object.keys(STORE)
 function watchForm() {
     $('form').submit(event => {
       event.preventDefault();
-      onGenerateClick()
        var ratingInput = document.getElementById("challenge-rating").value
        checkMonsterList(ratingInput)
        });
@@ -50,7 +49,7 @@ function checkMonsterList(ratingInput) {
         throw new Error (response.statusText);
     })
     .then (monsterListJson => {
-        grabCount(monsterListJson.count); 
+        grabCount(monsterListJson.count);
         gatherRelevantMonsters(createUrlMonsterArray(monsterListJson), ratingInput)
     })
     .catch (error => alert (`Error in checkMonsterList: ${error.message}`));
@@ -72,38 +71,53 @@ function grabCount(count){
 }
 
 // This is where the MAGIC happens. Gotta wait a few seconds, though.
-function gatherRelevantMonsters(theUrlArray, ratingInput) {
+async function gatherRelevantMonsters(theUrlArray, ratingInput) {
+    console.log(theUrlArray.length)
+    console.log("Step 1")
+    onGenerateClick()
     var monsterObjectArray = []
-    monsterObjectArray.push(theUrlArray.forEach(function(theUrlArray){
-            fetch(theUrlArray, {
-                headers: {
-                    "X-Requested-With": "XMLHttpRequest",
-                }
-            })
-            .then(response => {
-                if (response.ok) {
-                return response.json();
-                }
-                throw new Error (response.statusText);
-            })
-            .then (singleMonsterResponse => {
-                monsterObjectArray.push(singleMonsterResponse)
-            })
-            .catch (error => console.log(`Error in gatherRelevantMonsters: ${error.message}`));            
+    let searchedMonsters = 0
+    var firstThing = () => {
+        return new Promise((resolve, reject) => {
+            console.log("step 2")
+            monsterObjectArray.push(theUrlArray.forEach(function(eachUrl){
+                fetch(eachUrl, {
+                    headers: {
+                        "X-Requested-With": "XMLHttpRequest",
+                    }
+                })
+                .then(response => {
+                    if (response.ok) {
+                    return response.json();
+                    }
+                    throw new Error (response.statusText);
+                })
+                .then(singleMonsterResponse => {
+                    monsterObjectArray.push(singleMonsterResponse)
+                })
+                .then(item => {
+                    searchedMonsters++
+                    if (searchedMonsters === theUrlArray.length){
+                        resolve()
+                    }
+                })
+                .catch (error => console.log(`Error in gatherRelevantMonsters fetching: ${error.message}`));            
+            }))
         })
-    )
-    setTimeout(function(){
-        console.log(monsterObjectArray.length + ` monsters checked.`)
-        var filteredMonsters = []
-        for (let i = 1; i < monsterObjectArray.length; i++){
-            var singleMonsterResponse = monsterObjectArray[i]
-            if (filterMonsters(singleMonsterResponse, ratingInput) === true){
-                filteredMonsters.push(singleMonsterResponse)
-            }
+    }
+    await firstThing()
+    console.log("step 3")
+    console.log(monsterObjectArray.length + ` monsters checked.`)
+    var filteredMonsters = []
+    for (let i = 1; i < monsterObjectArray.length; i++){
+        var singleMonsterResponse = monsterObjectArray[i]
+        if (filterMonsters(singleMonsterResponse, ratingInput) === true){
+            filteredMonsters.push(singleMonsterResponse)
         }
-        var theSix = shuffleMonsters(filteredMonsters)
-        assembleInfoOntoPage(theSix)
-        }, 7150)
+    }
+    var theSix = shuffleMonsters(filteredMonsters)
+    assembleInfoOntoPage(theSix)
+    afterwards()
 }
 
 // Let's find some worthy foes!
@@ -124,7 +138,7 @@ function shuffleMonsters(arrayOfMonsters) {
         console.log(arrayOfMonsters)
         return arrayOfMonsters
     }
-    console.log(arrayOfMonsters.length + ` total worthy monsters found.`)
+    // console.log(arrayOfMonsters.length + ` total worthy monsters found.`)
     var theSix = new Set()        
     while (theSix.size < 6){
         var randomNumber = Math.floor(Math.random() * relevantLength)
@@ -133,7 +147,7 @@ function shuffleMonsters(arrayOfMonsters) {
                 theSix.add(arrayOfMonsters[randomNumber])
         }
     }
-    console.log(Array.from(theSix))
+    // console.log(Array.from(theSix))
     return Array.from(theSix)
 }
 
@@ -163,16 +177,23 @@ function onGenerateClick(){
     submitButton.classList.add("hidden")
     submitField.classList.add("hidden")
     loadingSwirl.classList.remove("hidden")
-    setTimeout(function(){
-        var grid = document.getElementById("grid-container")
-        grid.classList.add("grid-container")
-        grid.classList.remove("hidden")
-        submitButton.classList.remove("hidden")
-        submitField.classList.remove("hidden")
-        loadingSwirl.classList.add("hidden")
-        if (homeMonster != null){
-            homeMonster.removeAttribute("id")
-            homeMonster.classList.add("hidden")
-        }
-    }, 7350)
+}
+
+function afterwards(){
+    console.log("afterwards")
+    var submitButton = document.getElementById("generate")
+    var submitField = document.getElementById("challenge-rating")
+    var loadingSwirl = document.getElementById("loading-gif")
+    var homeMonster = document.getElementById("random")
+    var grid = document.getElementById("grid-container")
+    grid.classList.add("grid-container")
+    grid.classList.remove("hidden")
+    submitButton.classList.remove("hidden")
+    submitField.classList.remove("hidden")
+    loadingSwirl.classList.add("hidden")
+    if (homeMonster != null){
+        homeMonster.removeAttribute("id")
+        homeMonster.classList.add("hidden")
+    }
+
 }
