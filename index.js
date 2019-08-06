@@ -196,22 +196,22 @@ function afterwards(){
         homeMonster.classList.add("hidden")
     }
 }
+// USE THE BELOW TO MANUALLY UPDATE OUTDATED IMAGES
+// function checkForBrokenImages(){
+//     for (let i = 0; i < values.length; i++){
+//         const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
+//         wait(1000)
+//         .then(() => {
+//             console.log(`${keys[i]}:`)
+//             $('#random').replaceWith(
+//                 `<img id="random" alt="random-home-image" src="${values[i]}" onerror="imgError(${keys[i]});"></img>`
+//             )
+//         }).catch(e => {console.log(e)})
+//     }
+// }
 
-function checkForBrokenImages(){
-    for (let i = 0; i < values.length; i++){
-        const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
-        wait(1000)
-        .then(() => {
-            console.log(`${keys[i]}:`)
-            $('#random').replaceWith(
-                `<img id="random" alt="random-home-image" src="${values[i]}" onerror="imgError(${keys[i]});"></img>`
-            )
-        }).catch(e => {console.log(e)})
-    }
-}
-
-function imgError(image){
-    console.log(image)
-}
+// function imgError(image){
+//     console.log(image)
+// }
 
 
