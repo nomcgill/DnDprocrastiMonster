@@ -70,7 +70,7 @@ function grabCount(count){
     console.log(count + ' total monsters searched in Dungeons and Dragons 5th edition SRD content.')
 }
 
-// This is where the MAGIC happens. Gotta wait a few seconds, though.
+// This is where the MAGIC happens.
 async function gatherRelevantMonsters(theUrlArray, ratingInput) {
     console.log(theUrlArray.length)
     console.log("Step 1")
@@ -195,5 +195,23 @@ function afterwards(){
         homeMonster.removeAttribute("id")
         homeMonster.classList.add("hidden")
     }
-
 }
+
+function checkForBrokenImages(){
+    for (let i = 0; i < values.length; i++){
+        const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
+        wait(1000)
+        .then(() => {
+            console.log(`${keys[i]}:`)
+            $('#random').replaceWith(
+                `<img id="random" alt="random-home-image" src="${values[i]}" onerror="imgError(${keys[i]});"></img>`
+            )
+        }).catch(e => {console.log(e)})
+    }
+}
+
+function imgError(image){
+    console.log(image)
+}
+
+
