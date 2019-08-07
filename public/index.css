@@ -24,6 +24,7 @@ body * {
 
 #pane {
   background-image: linear-gradient(to bottom right, gray, rgb(46, 46, 46));
+  border-radius: 0 0 10px 10px;
 }
 
 #random {
@@ -120,6 +121,7 @@ margin: 0;
   font-size: 15px;
   transition: 0.3s;
   margin-bottom: 4px;
+  cursor: pointer;
 }
 
 #generate:hover {
