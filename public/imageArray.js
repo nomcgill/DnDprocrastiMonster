@@ -297,7 +297,7 @@ const STORE =
     'Vrock': `https://i.pinimg.com/originals/61/8e/de/618ede3767b890b27d5f2e472861257c.png `,
     'Vulture': ` https://s-media-cache-ak0.pinimg.com/736x/02/6d/2f/026d2ff39a89768ec17b71116fab3cc8.jpg`,
     'Warhorse': `https://i.imgur.com/KQxbp4c.jpg `,
-    'Warhorse Skeleton': `https://bobandsuewilliams.com/images/world-of-warcraft-art-skeleton-8.jpg `,
+    'Warhorse Skeleton': `https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1z0EzygHgjhxBPk3oB6Bnw6EAYC0Tz2GsPQHPepGBFhZcRry4`,
     'Water Elemental': `https://vignette.wikia.nocookie.net/dungeonsdragons/images/b/bc/Weasel.gif/revision/latest?cb=20120502024825 `,
     'Weasel': `https://vignette.wikia.nocookie.net/dungeonsdragons/images/b/bc/Weasel.gif/revision/latest?cb=20120502024825 `,
     'Werebear': `https://i.pinimg.com/originals/9b/0c/a1/9b0ca15c71a44bf8d7d0502ef9f4e899.jpg `,

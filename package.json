@@ -1,0 +1,10 @@
+{
+    "name": "procrastimonster",
+    "version": "1.0.0",
+    "description": "Dungeons and Dragons 5e Monster Assistance Tool.",
+    "repository": "https://github.com/nomcgill/DnDprocrastiMonster",
+    "scripts": {
+      "start": "node server.js"
+    }
+  }
+  
