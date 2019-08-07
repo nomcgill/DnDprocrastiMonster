@@ -18,7 +18,6 @@ function watchForm() {
   }
   
 $(function() {
-    console.log('App loaded! Waiting for submit!');
     watchForm();
 });
 
@@ -67,19 +66,16 @@ function createUrlMonsterArray(monsterListJson) {
 }
 
 function grabCount(count){
-    console.log(count + ' total monsters searched in Dungeons and Dragons 5th edition SRD content.')
+    console.log('Searching through ' + count + ' total monsters in Dungeons and Dragons 5th edition SRD content.')
 }
 
 // This is where the MAGIC happens.
 async function gatherRelevantMonsters(theUrlArray, ratingInput) {
-    console.log(theUrlArray.length)
-    console.log("Step 1")
     onGenerateClick()
     var monsterObjectArray = []
     let searchedMonsters = 0
     var firstThing = () => {
         return new Promise((resolve, reject) => {
-            console.log("step 2")
             monsterObjectArray.push(theUrlArray.forEach(function(eachUrl){
                 fetch(eachUrl, {
                     headers: {
@@ -106,8 +102,6 @@ async function gatherRelevantMonsters(theUrlArray, ratingInput) {
         })
     }
     await firstThing()
-    console.log("step 3")
-    console.log(monsterObjectArray.length + ` monsters checked.`)
     var filteredMonsters = []
     for (let i = 1; i < monsterObjectArray.length; i++){
         var singleMonsterResponse = monsterObjectArray[i]
@@ -135,10 +129,8 @@ function filterMonsters(singleMonsterResponse, ratingInput) {
 function shuffleMonsters(arrayOfMonsters) {
     var relevantLength = arrayOfMonsters.length
     if(relevantLength <= 6) {
-        console.log(arrayOfMonsters)
         return arrayOfMonsters
     }
-    // console.log(arrayOfMonsters.length + ` total worthy monsters found.`)
     var theSix = new Set()        
     while (theSix.size < 6){
         var randomNumber = Math.floor(Math.random() * relevantLength)
@@ -147,7 +139,6 @@ function shuffleMonsters(arrayOfMonsters) {
                 theSix.add(arrayOfMonsters[randomNumber])
         }
     }
-    // console.log(Array.from(theSix))
     return Array.from(theSix)
 }
 
@@ -173,14 +164,12 @@ function onGenerateClick(){
     var submitButton = document.getElementById("generate")
     var submitField = document.getElementById("challenge-rating")
     var loadingSwirl = document.getElementById("loading-gif")
-    var homeMonster = document.getElementById("random")
     submitButton.classList.add("hidden")
     submitField.classList.add("hidden")
     loadingSwirl.classList.remove("hidden")
 }
 
 function afterwards(){
-    console.log("afterwards")
     var submitButton = document.getElementById("generate")
     var submitField = document.getElementById("challenge-rating")
     var loadingSwirl = document.getElementById("loading-gif")
@@ -197,21 +186,21 @@ function afterwards(){
     }
 }
 // USE THE BELOW TO MANUALLY UPDATE OUTDATED IMAGES
-// function checkForBrokenImages(){
-//     for (let i = 0; i < values.length; i++){
-//         const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
-//         wait(1000)
-//         .then(() => {
-//             console.log(`${keys[i]}:`)
-//             $('#random').replaceWith(
-//                 `<img id="random" alt="random-home-image" src="${values[i]}" onerror="imgError(${keys[i]});"></img>`
-//             )
-//         }).catch(e => {console.log(e)})
-//     }
-// }
+function checkForBrokenImages(){
+    for (let i = 0; i < values.length; i++){
+        const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
+        wait(1000)
+        .then(() => {
+            console.log(`${keys[i]}:`)
+            $('#random').replaceWith(
+                `<img id="random" alt="random-home-image" src="${values[i]}" onerror="imgError(${keys[i]});"></img>`
+            )
+        }).catch(e => {console.log(e)})
+    }
+}
 
-// function imgError(image){
-//     console.log(image)
-// }
+function imgError(image){
+    console.log(image)
+}
 
 
