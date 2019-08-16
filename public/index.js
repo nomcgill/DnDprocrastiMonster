@@ -15,10 +15,20 @@ function watchForm() {
        var ratingInput = document.getElementById("challenge-rating").value
        checkMonsterList(ratingInput)
        });
-  }
+}
+
+function watchQuestion() {
+    $('#question').click(event => {
+        swal('D&D 5e ProcrastiMonster',
+        "The ProcrastiMonster is a tool for use with the tabletop role-playing game Dungeons and Dragons. To get started, enter a number between 0 and 30! Remember: Combat Rating (CR), per the Monster Manual, is intended to match the strength of 4 Adventurers.")
+    })
+}
   
 $(function() {
     watchForm();
+    watchQuestion()
+    swal('D&D 5e ProcrastiMonster',
+    "The ProcrastiMonster is a tool for use with the tabletop role-playing game Dungeons and Dragons. To get started, enter a number between 0 and 30! Remember: Combat Rating (CR), per the Monster Manual, is intended to match the strength of 4 Adventurers.")
 });
 
 !function singleHomeImage(){
@@ -164,8 +174,10 @@ function onGenerateClick(){
     var submitButton = document.getElementById("generate")
     var submitField = document.getElementById("challenge-rating")
     var loadingSwirl = document.getElementById("loading-gif")
+    var questionTool = document.getElementById("question")
     submitButton.classList.add("hidden")
     submitField.classList.add("hidden")
+    questionTool.classList.add("hidden")
     loadingSwirl.classList.remove("hidden")
 }
 
@@ -173,12 +185,14 @@ function afterwards(){
     var submitButton = document.getElementById("generate")
     var submitField = document.getElementById("challenge-rating")
     var loadingSwirl = document.getElementById("loading-gif")
+    var questionTool = document.getElementById("question")
     var homeMonster = document.getElementById("random")
     var grid = document.getElementById("grid-container")
     grid.classList.add("grid-container")
     grid.classList.remove("hidden")
     submitButton.classList.remove("hidden")
     submitField.classList.remove("hidden")
+    questionTool.classList.remove("hidden")
     loadingSwirl.classList.add("hidden")
     if (homeMonster != null){
         homeMonster.removeAttribute("id")

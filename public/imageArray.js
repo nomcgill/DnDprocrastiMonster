@@ -282,7 +282,7 @@ const STORE =
     'Swarm of Spiders': `https://i.pinimg.com/originals/ab/1d/13/ab1d1349c05ad80d9ab51feebacf0a63.png `,
     'Swarm of Wasps': `https://i.pinimg.com/originals/42/66/1d/42661db9478f242cd841ebf152ce27ee.png `,
     'Tarrasque': `https://1.bp.blogspot.com/-0OiHWMzWj9c/U8CbVH-yGdI/AAAAAAAABa0/-3xQ5QSkb6o/s1600/104tarrasque4e.jpg    `,
-    'Thug': `https://1.bp.blogspot.com/-0OiHWMzWj9c/U8CbVH-yGdI/AAAAAAAABa0/-3xQ5QSkb6o/s1600/104tarrasque4e.jpg `,
+    'Thug': `https://db4sgowjqfwig.cloudfront.net/images/2690786/Holger_thug2.png `,
     'Tiger': `https://i.imgur.com/zcgkCMW.jpg `,
     'Treant': `https://vignette.wikia.nocookie.net/forgottenrealms/images/6/65/Treant_-_Lars_Grant-West.jpg/revision/latest/scale-to-width-down/350?cb=20090519183840`,
     'Tribal Warrior': `https://i.pinimg.com/originals/8e/78/8a/8e788a6363a95d2bec0d89ebede0aeb5.png `,

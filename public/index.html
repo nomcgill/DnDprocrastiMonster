@@ -8,24 +8,26 @@
     <link rel="stylesheet" href="index.css">
     <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css?family=Arimo" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <link rel="icon" href="favicon.ico">
 </head>
 <body>
     <main role="main" class="container" id="container">
         <header role="banner">
         <div id="pane">
-        <h1>D&D 5e ProcrastiMonster, DM's Companion</h1>
-        <p id="description">For use with the tabletop game Dungeons and Dragons.<br>
-            Find a monster by image and Combat Rating! <b>Combat Rating</b> (CR) is intended to match a monster with 4 Adventurers of its equal level.</p>
-        <p id="short-description">Find a worthy foe by entering a Combat Rating!</p>
-        <div id="form">
-            <form role="search">
-                <img src="https://www.andrew.cmu.edu/user/okarabas/w/wp-content/plugins/wp-1-slider/images/loader/loading2.gif" id="loading-gif" alt="loading-gif" class="hidden"></img>
-                <input type="number" min="0" max="30" onfocus="this.value=''" name="challenge-rating" value="0" id="challenge-rating">
-                <input type="submit" value="Generate!" id="generate">
-                <p>Maximum: 30</p>
-            </form>
-        </div>
+            <div id="title-line">
+                <h1>D&D 5e ProcrastiMonster, DM Companion</h1>
+                <div id="question">?</div>
+            </div>
+            <div id="form">
+                <form role="search">
+                    <img src="https://www.andrew.cmu.edu/user/okarabas/w/wp-content/plugins/wp-1-slider/images/loader/loading2.gif" id="loading-gif" alt="loading-gif" class="hidden"></img>
+                    <input type="number" min="0" max="30" onfocus="this.value=''" name="challenge-rating" value="0" id="challenge-rating">
+                    <input type="submit" value="GENERATE" id="generate">
+                </form>
+            </div>
+            <p>Maximum: 30</p>
         </div>
         </header>
         <div id="base-container">

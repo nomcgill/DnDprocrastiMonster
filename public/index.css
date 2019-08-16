@@ -56,6 +56,7 @@ body {
 header {
   width: 100%;
   color: white;
+  text-align:center;
 }
 
 #random {
@@ -63,16 +64,11 @@ header {
 }
 
 h1 {
-  font-size: 35px;
+  text-align: center;
+  font-size: 32px;
   padding-left: 10px;
   padding-top: 7px;
   margin: 0px;
-}
-
-header p{
-  font-size: 15px;
-  padding: 0px 10px;
-  margin: 0px 0px 15px 10px;  
 }
 
 div#form{
@@ -80,12 +76,52 @@ div#form{
 }
 
 form {
-  display: inline-block;
+  display: inline-grid;
+  grid-template-columns: auto auto auto;
+  grid-column-gap: 5px;
 }
 
 main {
   max-width: 1000px;
   margin: 0 auto;
+}
+
+#title-line {
+  padding-top: 12px;
+  padding-bottom: 8px;
+}
+
+#title-line * {
+  display: inline;
+  text-align: center;
+  vertical-align: middle;
+}
+
+#question {
+  background-color: white;
+  font-size: 18px;
+  vertical-align: middle;
+  border: solid 2px white;
+  border-radius: 20px;
+  padding: 8px 14px;
+  color: rgb(102, 102, 102);
+  font-weight: bolder;
+  transition: 0.3s;
+  margin-left: 5px;
+}
+
+#question:hover {
+  background-color: rgb(83, 13, 13);
+  color: white;
+  cursor: pointer;
+}
+
+#question:active {
+  background-color: black;
+}
+
+#pane p {
+  margin: 5px;
 }
 
 #loading-gif {
@@ -102,6 +138,7 @@ margin: 0;
 }
 
 #challenge-rating{
+  font-family: 'Arimo', sans-serif;
   width: 50px;
   height: 47px;
   font-size: 22px;
@@ -115,7 +152,7 @@ margin: 0;
   border: 1.5px solid rgb(158, 158, 158);
   color: white;
   font-weight: bold;
-  padding: 15px 5px 13px;
+  padding: 15px 40px 13px;
   text-align: center;
   font-size: 15px;
   transition: 0.3s;
@@ -128,6 +165,11 @@ margin: 0;
   font-weight: bold;
   background-color: white;
   color: rgb(75,75,75);
+}
+
+#generate:active {
+  background-color: rgb(75, 75, 75);
+  color: white;
 }
 
 
@@ -144,12 +186,6 @@ footer {
   display: none;
 }
 
-#short-description {
-  margin: 0 auto;
-  width: 340px;
-  margin-bottom: 10px;
-}
-
 h3 {
   text-decoration: underline;
   font-size: 20px;
@@ -161,11 +197,6 @@ h4 {
   text-decoration: underline;
 }
 
-form p {
-  font-size: 11px;
-  margin-bottom: 0px;
-}
-
 ul {
   list-style-type: none;
 }
@@ -174,19 +205,12 @@ ul {
   cursor: pointer;
 }
 
-/* BIG SCREEN BELOW */
-@media screen and (min-width: 641px) {
-  #short-description {
-    display:none;
-  }
-
+form {
+  padding-top: 10px;
 }
 
 /* RESPONSIVE SMALL SCREEN BELOW */
-@media screen and (max-width: 640px) {
-  #description{
-    display: none;
-  }
+@media screen and (max-width: 740px) {
 
   #loading-gif {
     margin-top: 0px; 
@@ -197,7 +221,7 @@ ul {
   }
 
   #challenge-rating {
-    height: 31px;
+    height: 47px;
   }
 
   .boxes img {
@@ -205,7 +229,7 @@ ul {
   }
 
   #generate {
-    padding: 7px 5px 5px;
+    padding: 15px 40px 13px;
   }
 
   h1 {
@@ -215,10 +239,6 @@ ul {
     padding: 0px;
     padding-top: 7px;
     padding-left: 10px;
-  }
-
-  #description {
-    margin-right: 10px;
   }
   
   li {
