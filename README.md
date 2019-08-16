@@ -48,5 +48,5 @@ The app still has improvements to be made! Upcoming changes include:
 * Consistent images. Increased uniformity between images would look much cleaner.
 
 ## See It Working
-See a working example that uses [herokuapp](http://procrastimonster--nomcgill.repl.co/).
+See a working example that uses [herokuapp](http://procrastimonster.herokuapp.com/).
 Again, the creator of D&D 5e API did not enable CORS, so your device must be compatible with http page.
