@@ -87,7 +87,7 @@ async function gatherRelevantMonsters(theUrlArray, ratingInput) {
     let searchedMonsters = 0
     var problem = setTimeout(function(){
         somethingWentWrong()
-        }, 15000);
+        }, 20000);
     var firstThing = () => {
         return new Promise((resolve, reject) => {
             monsterObjectArray.push(theUrlArray.forEach(function(eachUrl){
