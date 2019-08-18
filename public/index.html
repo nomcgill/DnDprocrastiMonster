@@ -17,17 +17,18 @@
         <header role="banner">
         <div id="pane">
             <div id="title-line">
-                <h1>D&D 5e ProcrastiMonster, DM Companion</h1>
+                <h1 id="full-title">D&D 5e ProcrastiMonster, DM Companion</h1>
+                <h1 id="title">D&D 5e ProcrastiMonster</h1>
                 <div id="question">?</div>
             </div>
             <div id="form">
                 <form role="search">
-                    <img src="https://www.andrew.cmu.edu/user/okarabas/w/wp-content/plugins/wp-1-slider/images/loader/loading2.gif" id="loading-gif" alt="loading-gif" class="hidden"></img>
+                    <div id="loading-gif" alt="loading-gif" class="hidden"></div>
                     <input type="number" min="0" max="30" onfocus="this.value=''" name="challenge-rating" value="0" id="challenge-rating">
                     <input type="submit" value="GENERATE" id="generate">
                 </form>
             </div>
-            <p>Maximum: 30</p>
+            <p id="pane-note">Maximum: 30</p>
         </div>
         </header>
         <div id="base-container">

@@ -19,8 +19,8 @@ function watchForm() {
 
 function watchQuestion() {
     $('#question').click(event => {
-        swal('D&D 5e ProcrastiMonster',
-        "The ProcrastiMonster is a tool for use with the tabletop role-playing game Dungeons and Dragons. To get started, enter a number between 0 and 30! Remember: Combat Rating (CR), per the Monster Manual, is intended to match the strength of 4 Adventurers.")
+        swal('Using the ProcrastiMonster',
+        "This app is a companion tool for 5th edition Dungeons and Dragons, a tabletop game by Wizards of the Coast. To get started, enter a Combat Rating between 0 and 30. Enemies found should be worthy foes for 4 adventurers of equal level.")
     })
 }
   
@@ -28,7 +28,8 @@ $(function() {
     watchForm();
     watchQuestion()
     swal('D&D 5e ProcrastiMonster',
-    "The ProcrastiMonster is a tool for use with the tabletop role-playing game Dungeons and Dragons. To get started, enter a number between 0 and 30! Remember: Combat Rating (CR), per the Monster Manual, is intended to match the strength of 4 Adventurers.")
+    "Are you playing Dungeons and Dragons and need to whip up some monsters? Enter a Combat Rating between 0 and 30 to find some random ones for your adventurers!")
+    getAttention()
 });
 
 !function singleHomeImage(){
@@ -61,7 +62,7 @@ function checkMonsterList(ratingInput) {
         grabCount(monsterListJson.count);
         gatherRelevantMonsters(createUrlMonsterArray(monsterListJson), ratingInput)
     })
-    .catch (error => alert (`Error in checkMonsterList: ${error.message}`));
+    .catch (error => somethingWentWrong(error.message));
 }
 
 
@@ -84,6 +85,9 @@ async function gatherRelevantMonsters(theUrlArray, ratingInput) {
     onGenerateClick()
     var monsterObjectArray = []
     let searchedMonsters = 0
+    var problem = setTimeout(function(){
+        somethingWentWrong()
+        }, 15000);
     var firstThing = () => {
         return new Promise((resolve, reject) => {
             monsterObjectArray.push(theUrlArray.forEach(function(eachUrl){
@@ -104,10 +108,14 @@ async function gatherRelevantMonsters(theUrlArray, ratingInput) {
                 .then(item => {
                     searchedMonsters++
                     if (searchedMonsters === theUrlArray.length){
+                        clearTimeout(problem)
                         resolve()
                     }
                 })
-                .catch (error => console.log(`Error in gatherRelevantMonsters fetching: ${error.message}`));            
+                .catch (error => {
+                    clearTimeout(problem)
+                    somethingWentWrong(error)
+                });            
             }))
         })
     }
@@ -122,6 +130,25 @@ async function gatherRelevantMonsters(theUrlArray, ratingInput) {
     var theSix = shuffleMonsters(filteredMonsters)
     assembleInfoOntoPage(theSix)
     afterwards()
+}
+
+function somethingWentWrong(error){
+    if (!error){
+        swal("Timed Out",
+            "Connection too slow for practical use. Restarting app...", "error")
+        setTimeout(function(){
+            location.reload()
+        }, 3500)
+    }
+    else {$(`#pane-note`).replaceWith(`
+            <p id="pane-note">Connection trouble: ${error.message}</p>`)
+        var submitButton = document.getElementById("generate")
+        var submitField = document.getElementById("challenge-rating")
+        var loadingSwirl = document.getElementById("loading-gif")
+        submitButton.classList.remove("hidden")
+        submitField.classList.remove("hidden")
+        loadingSwirl.classList.add("hidden")
+    }
 }
 
 // Let's find some worthy foes!
@@ -162,22 +189,37 @@ function assembleInfoOntoPage(theSix){
     for (let w = 1; w <= theSix.length; w++){
         var theName = theSix[w-1].name
         $(`#box${w}`).replaceWith(
-            `<div id="box${w}" class="boxes clickable">
-                <img src="${STORE[theName]}" alt="${theName}" title="${theName}"></img>
-            </div>`
-          )
-          document.getElementsByClassName("clickable")[w-1].addEventListener("click", function(){getDetails(theSix[w-1])});
+            `<div id="box${w}" class="boxes clickable"
+            onmouseover="activateName(${w})" onmouseout="deactivateName(${w})"
+            >
+                <img src="${STORE[theName]}" alt="${theName}"></img>
+                <div class="monster-name" id="monster${w}">${theName}</div>`)
+        document.getElementsByClassName("clickable")[w-1].addEventListener("click", function(){getDetails(theSix[w-1])});
+    }
+}
+
+function activateName(ID){
+    var monsterID = document.getElementById(`monster${ID}`)
+    monsterID.classList.add('selecting')    
+}
+
+function deactivateName(ID){
+    var monsterID = document.getElementById(`monster${ID}`)
+    if (monsterID.classList[1] == "selecting"){
+        monsterID.classList.remove('selecting')  
     }
 }
 
 function onGenerateClick(){
+    $(`#pane-note`).replaceWith(`
+        <p id="pane-note">Maximum: 30</p>`)
     var submitButton = document.getElementById("generate")
     var submitField = document.getElementById("challenge-rating")
     var loadingSwirl = document.getElementById("loading-gif")
-    var questionTool = document.getElementById("question")
+    var paneNote = document.getElementById("pane-note")
+    paneNote.classList.add("hidden")
     submitButton.classList.add("hidden")
     submitField.classList.add("hidden")
-    questionTool.classList.add("hidden")
     loadingSwirl.classList.remove("hidden")
 }
 
@@ -188,6 +230,10 @@ function afterwards(){
     var questionTool = document.getElementById("question")
     var homeMonster = document.getElementById("random")
     var grid = document.getElementById("grid-container")
+    var questionTool = document.getElementById("question")
+    var paneNote = document.getElementById("pane-note")
+    paneNote.classList.remove("hidden")
+    questionTool.classList.add("hidden")
     grid.classList.add("grid-container")
     grid.classList.remove("hidden")
     submitButton.classList.remove("hidden")
@@ -199,6 +245,33 @@ function afterwards(){
         homeMonster.classList.add("hidden")
     }
 }
+
+function getAttention(){
+    var questionTool = document.getElementById("question")
+    var startFlash = setInterval(function(){
+        flash(questionTool)
+    },4000)
+    $('#question').hover(function(){
+        clearInterval(startFlash)
+    })
+    $('#form').submit(function(){
+        clearInterval(startFlash)
+    })
+}
+
+function flash(item){
+    item.classList.add("flash")
+    setTimeout(function(){
+        item.classList.remove("flash")
+    }, 200)
+    setTimeout(function(){
+        item.classList.add("flash")
+    }, 400)
+    setTimeout(function(){
+        item.classList.remove("flash")
+    }, 600)
+}
+
 // USE THE BELOW TO MANUALLY UPDATE OUTDATED IMAGES
 function checkForBrokenImages(){
     for (let i = 0; i < values.length; i++){

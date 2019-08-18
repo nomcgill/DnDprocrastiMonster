@@ -23,7 +23,8 @@ body * {
 }
 
 #pane {
-  background-image: linear-gradient(to bottom right, gray, rgb(46, 46, 46));
+  background-color: rgb(126, 106, 81);
+  height: 135px;
 }
 
 #random {
@@ -34,12 +35,51 @@ body * {
   padding: 20px;
 }
 
+.boxes {
+  position: relative;
+}
+
 .boxes img {
-  object-fit: cover;
+  /* object-fit: cover; */
   height: 192px;
   margin: 0 auto;
   align-self: center;
   justify-self: center;
+}
+
+.monster-name {
+  position: absolute;
+  z-index: 999;
+  margin: 0 auto;
+  left: 0;
+  right: 0;
+  top: 75%; /* Adjust this value to move the positioned div up and down */
+  width: 85%;
+  text-align: center;
+  color: white;
+  background-color: rgba(88, 88, 88, 0.637);
+  padding: 2px;
+  border-radius: 3px;
+  font-size: 16px;
+  transition: .3s;
+  cursor: pointer;
+}
+
+.monster-name:hover, 
+.monster-name:active {
+  background-color: black;
+  color: white;
+  box-shadow: 0px 0px 15px rgb(0, 0, 0);
+  font-weight: bolder;
+  top: 73%;
+}
+
+.selecting {
+  background-color: black;
+  color: white;
+  box-shadow: 0px 0px 15px rgb(0, 0, 0);
+  font-weight: bolder;
+  top: 73%;
 }
 
 .grid-container {
@@ -79,6 +119,7 @@ form {
   display: inline-grid;
   grid-template-columns: auto auto auto;
   grid-column-gap: 5px;
+  padding-top: 0px;
 }
 
 main {
@@ -97,12 +138,12 @@ main {
   vertical-align: middle;
 }
 
-#question {
+#title-line div {
   background-color: white;
-  font-size: 18px;
+  font-size: 20px;
   vertical-align: middle;
   border: solid 2px white;
-  border-radius: 20px;
+  border-radius: 40px;
   padding: 8px 14px;
   color: rgb(102, 102, 102);
   font-weight: bolder;
@@ -110,8 +151,14 @@ main {
   margin-left: 5px;
 }
 
+body #title-line .flash {
+  box-shadow: 0px 0px 15px rgb(253, 255, 110);
+  background-color: black;
+  color: white;
+}
+
 #question:hover {
-  background-color: rgb(83, 13, 13);
+  background-color: rgb(112, 42, 42);
   color: white;
   cursor: pointer;
 }
@@ -120,15 +167,9 @@ main {
   background-color: black;
 }
 
-#pane p {
+#pane-note {
   margin: 5px;
-}
-
-#loading-gif {
-  margin-top: 15px;
-  height: 25px;
-  text-align: center;
-  margin-bottom: 8px;
+  margin-top: 2px;
 }
 
 input[type=number]::-webkit-inner-spin-button, 
@@ -172,7 +213,6 @@ margin: 0;
   color: white;
 }
 
-
 footer {
   max-width: 1000px;
   width: 100%;
@@ -180,6 +220,10 @@ footer {
   text-align: center;
   background-color: white;
   overflow: hidden;
+}
+
+footer a {
+  color: black;
 }
 
 .hidden {
@@ -205,12 +249,42 @@ ul {
   cursor: pointer;
 }
 
-form {
-  padding-top: 10px;
+#title {
+  display: none;
+}
+
+#loading-gif {
+  border: 9px solid rgb(126, 106, 81);
+  border-radius: 50%;
+  border-top: 9px solid #ffffff;
+  width: 50px;
+  height: 50px;
+  -webkit-animation: spin 1s linear infinite; /* Safari */
+  animation: spin 1s linear inblackfinite;
+  margin-bottom: 12px;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.swal-text {
+  padding: 0 20px;
+}
+
+.swal-title {
+  text-decoration: underline;
 }
 
 /* RESPONSIVE SMALL SCREEN BELOW */
-@media screen and (max-width: 740px) {
+@media all and (max-width: 740px) {
 
   #loading-gif {
     margin-top: 0px; 
@@ -233,7 +307,7 @@ form {
   }
 
   h1 {
-    font-size: 19px;
+    font-size: 22px;
     margin: 0 auto;
     width: 400px;
     padding: 0px;
@@ -256,11 +330,33 @@ form {
   #box2, #box4, #box6 {
     overflow: hidden;
   }
+
+  #title-line{
+    overflow: visible;
+  }
+
+  #title-line div {
+    font-size: 16px;
+    padding: 5px 8px;
+  }
 }
 
-@media screen and (max-width: 405px) {
+#title {
+  display: unset;
+}
+
+#full-title {
+    display: none;
+}
+
+#pane-note {
+  margin-top: 4px;
+
+}
+
+@media all and (max-width: 450px) {
   h1 {
-    font-size: 17px;
+    font-size: 20px;
   }
 
   .boxes img {
