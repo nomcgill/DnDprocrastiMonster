@@ -53,7 +53,7 @@ body * {
   margin: 0 auto;
   left: 0;
   right: 0;
-  top: 75%; /* Adjust this value to move the positioned div up and down */
+  top: 75%; 
   width: 85%;
   text-align: center;
   color: white;
@@ -355,12 +355,23 @@ ul {
 }
 
 @media all and (max-width: 450px) {
+
+  body,html {
+    overflow: hidden;
+  }
+
   h1 {
     font-size: 20px;
   }
 
   .boxes img {
     height: 135px;
+  }
+
+  .monster-name {
+    width: 100%;
+    bottom: 2%;
+    top: unset;
   }
 
   #random {
