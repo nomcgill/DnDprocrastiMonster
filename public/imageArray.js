@@ -120,7 +120,7 @@ const STORE =
     'Giant Bat': `http://4.bp.blogspot.com/-vPqwoxj8HQ8/VQzrrFfC-II/AAAAAAAAANg/qd9t5wujL4Q/s1600/ahool_normal_monster.png `,
     'Giant Boar': `https://db4sgowjqfwig.cloudfront.net/campaigns/176214/assets/819782/Giant_Boar.jpg?1516467678 `,
     'Giant Centipede': `https://ironbombs.files.wordpress.com/2014/03/giant-centipede-smaller.jpg `,
-    'Giant Constrictor Snake': `http://oi57.tinypic.com/53u7iq.jpg `,
+    'Giant Constrictor Snake': `https://i.pinimg.com/originals/4a/b5/be/4ab5bef07bdba6c8fabc5e6ccfeac721.jpg `,
     'Giant Crab': `https://i.pinimg.com/originals/04/87/2a/04872afe925b7219ec60d356d66e5fa6.jpg `,
     'Giant Crocodile': `https://i.imgur.com/eNRA8rM.jpg `,
     'Giant Eagle': `https://vignette.wikia.nocookie.net/dungeonsdragons/images/9/93/Giant_Eagle.jpg/revision/latest?cb=20111214054603 `,
