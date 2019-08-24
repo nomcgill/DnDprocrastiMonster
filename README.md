@@ -26,7 +26,7 @@ Below the static header pane is the bread and butter of the app—**the body**. 
 ## UNDER THE HOOD
 * HTML, CSS, JavaScript, JQuery, and JSON API GET requests
 ### The API
-This app uses a 3rd party API created and open-sourced by Adrian Padua in 2016. The API was the most complete D&D monster API that could be found in January, 2019. Unfortunately, *D&D 5e API* is not https. As http, Cross-Origin requests are not possible in some formats. This means that the GET requests will not work for some users. For more informataion, see [MDN web docs](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS). The easiest method to bipass is to either use the app locally, or to use the app from an http to start. Repl.it houses the http domain for the example at the end of this README. 
+This app uses a 3rd party API created and open-sourced by Adrian Padua in 2016. The API was the most complete D&D monster API that could be found in January, 2019.
 
 ### The Images
 Without a way to obtain free, relevant images (the app was created for a class, not for commercial use), I simply took the time to create a javascript object of the proper images for each monster. This is store in *"imageArray.js"*.
@@ -49,4 +49,3 @@ The app still has improvements to be made! Upcoming changes include:
 
 ## See It Working
 See a working example that uses [herokuapp](http://procrastimonster.herokuapp.com/).
-Again, the creator of D&D 5e API did not enable CORS, so your device must be compatible with http page.
