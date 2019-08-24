@@ -109,7 +109,7 @@ function getDetails(monster){
     )
     $(`#box3`).replaceWith(
         `<div id="box3" class="boxes">
-        <h4>STATS AND BONUSES</h4>
+        <h4>STATS & BONUSES</h4>
         <ul>
             <li>Strength: ${monster.strength}</li>
             <li>Dexterity: ${monster.dexterity}</li>

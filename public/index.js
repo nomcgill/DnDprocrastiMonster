@@ -3,7 +3,7 @@
 //For Dungeons and Dragons, the only functionable (open-source) monster API with documentation uses HTTP.
 //See his site at http://www.dnd5eapi.co/.
 
-const endPointMonsters = `http://www.dnd5eapi.co/api/monsters`;
+const endPointMonsters = `https://cors-anywhere.herokuapp.com/http://www.dnd5eapi.co/api/monsters`;
 const values = Object.values(STORE)
 const keys = Object.keys(STORE)
 
@@ -28,7 +28,7 @@ $(function() {
     watchForm();
     watchQuestion()
     swal('D&D 5e ProcrastiMonster',
-    "Are you playing Dungeons and Dragons and need to whip up some monsters? Enter a Combat Rating between 0 and 30 to find some random ones for your adventurers!")
+    "Are you playing Dungeons and Dragons and need to whip up some monsters? Enter a Combat Rating between 0 and 30 at the top of the screen and hit GENERATE to find some random ones for your adventurers!")
     getAttention()
 });
 
