@@ -10,7 +10,7 @@ I wanted to make an image-based app to help novice DMs. Playerbooks and Monster 
 
 ## SCREENSHOTS
 
-![Screenshot of Responsive Images](https://github.com/nomcgill/DnDprocrastiMonster/blob/master/ProcrastiMonster%20App%20Screenshot.jpg?raw=true)
+![Screenshot of App](https://github.com/nomcgill/DnDprocrastiMonster/blob/master/1ProcrastimonsterScreen.png?raw=true)
 
 ## THE USER EXPERIENCE
 
