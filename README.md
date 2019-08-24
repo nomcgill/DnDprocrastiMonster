@@ -8,7 +8,7 @@ As a prior Dungeon Master—and an ongoing fan of the D&D franchise—I know tha
 
 I wanted to make an image-based app to help novice DMs. Playerbooks and Monster Manuals aren't always the easy to sift through. However, as long as the DM can visualize their adventurers' environment, the Procrastimonster can help find the perfect fit of monster based off of two simple things: Combat Rating and appearance.
 
-## SCREENSHOTS
+## SCREENSHOT
 
 ![Screenshot of App](https://github.com/nomcgill/DnDprocrastiMonster/blob/master/1ProcrastimonsterScreen.png?raw=true)
 
