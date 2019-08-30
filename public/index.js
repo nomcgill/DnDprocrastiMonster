@@ -141,7 +141,7 @@ function somethingWentWrong(error){
         }, 3500)
     }
     else {$(`#pane-note`).replaceWith(`
-            <p id="pane-note">Connection trouble: ${error.message}</p>`)
+            <p id="pane-note">Connection trouble: ${error.message}. (Note: Connection to API is unsecure.)</p>`)
         var submitButton = document.getElementById("generate")
         var submitField = document.getElementById("challenge-rating")
         var loadingSwirl = document.getElementById("loading-gif")
