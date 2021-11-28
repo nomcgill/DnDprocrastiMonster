@@ -3,7 +3,7 @@
 //For Dungeons and Dragons, the only functionable (open-source) monster API with documentation uses HTTP.
 //See his site at http://www.dnd5eapi.co/.
 
-const endPointMonsters = `https://cors-anywhere.herokuapp.com/http://www.dnd5eapi.co/api/monsters`;
+const endPointMonsters = `https://www.dnd5eapi.co/api/monsters`;
 const values = Object.values(STORE)
 const keys = Object.keys(STORE)
 
