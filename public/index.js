@@ -1,20 +1,22 @@
 'use strict';
-//CORS NOT ENABLED server-side. URL must be HTTP, not HTTPS. Mixed content will not work. 
-//For Dungeons and Dragons, the only functionable (open-source) monster API with documentation uses HTTP.
-//See his site at http://www.dnd5eapi.co/.
 
-const endPointMonsters = `https://www.dnd5eapi.co/api/monsters`;
+const endPointMonsters = `https://www.dnd5eapi.co`;
 const values = Object.values(STORE)
 const keys = Object.keys(STORE)
 
+// Only ONE of the below should be un-commented out at a time,
+// depending on whether we want to use the REMOTE 3rd party API at http://www.dnd5eapi.co/. 
+
+// const APIenabled = true
+const APIenabled = false
 
 // THE LOADUP...
 function watchForm() {
     $('form').submit(event => {
-      event.preventDefault();
-       var ratingInput = document.getElementById("challenge-rating").value
-       checkMonsterList(ratingInput)
-       });
+        event.preventDefault();
+        var ratingInput = document.getElementById("challenge-rating").value
+        checkMonsterList(ratingInput)
+    });
 }
 
 function watchQuestion() {
@@ -30,6 +32,9 @@ $(function() {
     swal('D&D 5e ProcrastiMonster',
     "Are you playing Dungeons and Dragons and need to whip up some monsters? Enter a Combat Rating between 0 and 30 at the top of the screen and hit GENERATE to find some random ones for your adventurers!")
     getAttention()
+
+    // Use the below function to check for broken image links that need repaired.
+    // checkForBrokenImages()
 });
 
 !function singleHomeImage(){
@@ -51,18 +56,25 @@ document.getElementById('challenge-rating').oninput = function () {
 
 // WE'VE GOTTA CHECK THAT API FOR ALL THE MONSTERS...
 function checkMonsterList(ratingInput) {
-    fetch (endPointMonsters)
-    .then(response => {
-        if (response.ok) {
-            return response.json();
-        }
-        throw new Error (response.statusText);
-    })
-    .then (monsterListJson => {
-        grabCount(monsterListJson.count);
-        gatherRelevantMonsters(createUrlMonsterArray(monsterListJson), ratingInput)
-    })
-    .catch (error => somethingWentWrong(error.message));
+
+    if (APIenabled){
+        fetch (endPointMonsters + '/api/monsters')
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            }
+            throw new Error (response.statusText);
+        })
+        .then (monsterListJson => {
+            grabCount(monsterListJson.count);
+            gatherRelevantMonsters(createUrlMonsterArray(monsterListJson), ratingInput)
+        })
+        .catch (error => somethingWentWrong(error.message));
+    }
+    else {
+        grabCount(staticSTORE.length)
+        gatherRelevantMonsters(staticSTORE, ratingInput)
+    }
 }
 
 
@@ -77,28 +89,38 @@ function createUrlMonsterArray(monsterListJson) {
 }
 
 function grabCount(count){
-    console.log('Searching through ' + count + ' total monsters in Dungeons and Dragons 5th edition SRD content.')
+    if (APIenabled){
+        console.log('Searching through ' + count + ' total monsters in a REMOTE API of Dungeons and Dragons 5th edition SRD content.')
+    }
+    else {
+        console.log('Searching through ' + count + ' total monsters in a STATIC object of Dungeons and Dragons 5th edition SRD content.')
+    }
 }
 
 // This is where the MAGIC happens.
 async function gatherRelevantMonsters(theUrlArray, ratingInput) {
+
     onGenerateClick()
     var monsterObjectArray = []
     let searchedMonsters = 0
-    var problem = setTimeout(function(){
-        somethingWentWrong()
-        }, 20000);
+    if (APIenabled){
+        var problem = setTimeout(function(){
+            somethingWentWrong()
+            }, 10000);
+    }
     var firstThing = () => {
+        console.log('heard')
         return new Promise((resolve, reject) => {
             monsterObjectArray.push(theUrlArray.forEach(function(eachUrl){
-                fetch(eachUrl, {
+                let monsterEndpoint = endPointMonsters + eachUrl
+                fetch(monsterEndpoint, {
                     headers: {
                         "X-Requested-With": "XMLHttpRequest",
                     }
                 })
                 .then(response => {
                     if (response.ok) {
-                    return response.json();
+                        return response.json();
                     }
                     throw new Error (response.statusText);
                 })
@@ -119,7 +141,14 @@ async function gatherRelevantMonsters(theUrlArray, ratingInput) {
             }))
         })
     }
-    await firstThing()
+
+    if (APIenabled){
+        await firstThing()
+    }
+    else {
+        monsterObjectArray = staticSTORE
+    }
+
     var filteredMonsters = []
     for (let i = 1; i < monsterObjectArray.length; i++){
         var singleMonsterResponse = monsterObjectArray[i]
@@ -133,21 +162,28 @@ async function gatherRelevantMonsters(theUrlArray, ratingInput) {
 }
 
 function somethingWentWrong(error){
-    if (!error){
-        swal("Timed Out",
-            "Connection too slow for practical use. Restarting app...", "error")
-        setTimeout(function(){
-            location.reload()
-        }, 3500)
+    if (APIenabled){
+        if (!error){
+            swal("Timed Out",
+                "Connection too slow for practical use. Restarting app...", "error")
+            setTimeout(function(){
+                location.reload()
+            }, 3500)
+        }
+        else {
+            console.log(error)
+            $(`#pane-note`).replaceWith(`<p id="pane-note">Connection trouble: ${error.message}</p>`)
+            var submitButton = document.getElementById("generate")
+            var submitField = document.getElementById("challenge-rating")
+            var loadingSwirl = document.getElementById("loading-gif")
+            submitButton.classList.remove("hidden")
+            submitField.classList.remove("hidden")
+            loadingSwirl.classList.add("hidden")
+        }
     }
-    else {$(`#pane-note`).replaceWith(`
-            <p id="pane-note">Connection trouble: ${error.message}. (Note: Connection to API is unsecure.)</p>`)
-        var submitButton = document.getElementById("generate")
-        var submitField = document.getElementById("challenge-rating")
-        var loadingSwirl = document.getElementById("loading-gif")
-        submitButton.classList.remove("hidden")
-        submitField.classList.remove("hidden")
-        loadingSwirl.classList.add("hidden")
+    else {
+        console.log("Something went wrong:")
+        console.log(error)
     }
 }
 
@@ -187,7 +223,8 @@ function assembleInfoOntoPage(theSix){
           )
     }
     for (let w = 1; w <= theSix.length; w++){
-        var theName = theSix[w-1].name
+        var theName = theSix[w-1].name.split(',')[0]
+        console.log(theName)
         $(`#box${w}`).replaceWith(
             `<div id="box${w}" class="boxes clickable"
             onmouseover="activateName(${w})" onmouseout="deactivateName(${w})"
@@ -211,8 +248,6 @@ function deactivateName(ID){
 }
 
 function onGenerateClick(){
-    $(`#pane-note`).replaceWith(`
-        <p id="pane-note">Maximum: 30</p>`)
     var submitButton = document.getElementById("generate")
     var submitField = document.getElementById("challenge-rating")
     var loadingSwirl = document.getElementById("loading-gif")
@@ -278,7 +313,7 @@ function checkForBrokenImages(){
         const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
         wait(1000)
         .then(() => {
-            console.log(`${keys[i]}:`)
+            // console.log(`${keys[i]}:`)
             $('#random').replaceWith(
                 `<img id="random" alt="random-home-image" src="${values[i]}" onerror="imgError(${keys[i]});"></img>`
             )
