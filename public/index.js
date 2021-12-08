@@ -109,7 +109,6 @@ async function gatherRelevantMonsters(theUrlArray, ratingInput) {
             }, 10000);
     }
     var firstThing = () => {
-        console.log('heard')
         return new Promise((resolve, reject) => {
             monsterObjectArray.push(theUrlArray.forEach(function(eachUrl){
                 let monsterEndpoint = endPointMonsters + eachUrl
@@ -224,15 +223,30 @@ function assembleInfoOntoPage(theSix){
     }
     for (let w = 1; w <= theSix.length; w++){
         var theName = theSix[w-1].name.split(',')[0]
-        console.log(theName)
         $(`#box${w}`).replaceWith(
             `<div id="box${w}" class="boxes clickable"
             onmouseover="activateName(${w})" onmouseout="deactivateName(${w})"
             >
                 <img src="${STORE[theName]}" alt="${theName}"></img>
                 <div class="monster-name" id="monster${w}">${theName}</div>`)
-        document.getElementsByClassName("clickable")[w-1].addEventListener("click", function(){getDetails(theSix[w-1])});
+        document.getElementsByClassName("clickable")[w-1].addEventListener("click", function(){
+
+            // getDetails will use the internal app's details display. fetchBeyond will link to DnDBeyond.
+
+            // getDetails(theSix[w-1])
+            fetchBeyond(theSix[w-1])
+        
+        });
     }
+}
+
+function fetchBeyond(monster){
+    let monsterEndURL =
+        monster.name.split(',')[0]
+        .split('/')[0]
+        .replace(/\s+/g, '-').toLowerCase()
+    let monsterURL = 'https://dndbeyond.com/monsters/' + monsterEndURL
+    window.open(monsterURL, '_blank')
 }
 
 function activateName(ID){
@@ -313,7 +327,6 @@ function checkForBrokenImages(){
         const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
         wait(1000)
         .then(() => {
-            // console.log(`${keys[i]}:`)
             $('#random').replaceWith(
                 `<img id="random" alt="random-home-image" src="${values[i]}" onerror="imgError(${keys[i]});"></img>`
             )
